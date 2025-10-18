@@ -3,37 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:33:48 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/17 18:57:21 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/10/18 14:01:58 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../inc/minishell.h"
 
 int g_status = 0;
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
+	(void) ac;
+	(void) av;
 	char	*line;
     char    **result;
-	int		i;
 
 	while (1)
 	{
-        line = read_line_or_exit();
-		if (!line)
-        continue ;
-		result = parse_pipeline(line);
-		if (!result)
-			continue ;
-		i = 0;
-		while (result[i])
-		{
-			printf("cmd[%d]: «%s»\n", i, result[i]);
-            i++;
-		}
+    	line = read_line_or_exit();
+    	if (!line)
+        	continue ;
+    	result = parse_pipeline(line);
+   		if (!result)
+        	continue ;
+    	exec_normal_commands(result, envp);
+    	//free_tokens(result);
+    	free(line);
 	}
 	return (0);
 }

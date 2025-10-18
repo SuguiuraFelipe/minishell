@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:46:52 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/16 17:58:14 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/10/18 13:56:33 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../inc/minishell.h"
+
+char	*cat_path_and_cmd(char *s1, char *s2, char *s3)
+{
+	char	*temp;
+	char	*result;
+
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	temp = ft_strjoin(s1, s2);
+	if (!temp)
+		return (NULL);
+	result = ft_strjoin(temp, s3);
+	free(temp);
+	return (result);
+}
 
 int	trim_parts(char **str_arr, const char *set)
 {
@@ -51,3 +66,4 @@ void	free_split_vector_only(char **str_arr)
 {
 	free(str_arr);
 }
+

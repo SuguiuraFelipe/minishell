@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/17 19:46:26 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/10/18 14:04:12 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 /* libft_utils */
 void	*ft_memset(void *ptr, int value, size_t num);
@@ -31,6 +33,9 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char	*ft_strtrim(char const *s1, char const *set);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strdup(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
 
 /* split */
@@ -56,5 +61,10 @@ void	change_pipe(char *s);
 int	update_qmode(int qmode, char c);
 char **parse_pipeline(char *line);
 char *remove_space(char *line);
+
+/* exec */
+char	*cat_path_and_cmd(char *s1, char *s2, char *s3);
+void	exec_normal_commands(char **args, char **envp);
+
 
 #endif

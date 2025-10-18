@@ -6,13 +6,13 @@ INCLUDES    := -I.
 LIBS        := -lreadline
 
 SRCS        := src/main.c \
- 			   src/libft_utils.c \
-			   src/ft_split.c \
-			   src/utils.c \
-			   src/syntax.c \
-			   src/cmds_list.c \
-			   src/input.c \
-			   src/parse_pipeline.c
+			   src/exec.c \
+ 			   src/parsing/libft_utils.c \
+			   src/parsing/general_utils.c \
+			   src/parsing/ft_split.c \
+			   src/parsing/syntax.c \
+			   src/parsing/input.c \
+			   src/parsing/parse_pipeline.c
 
 OBJS        := $(SRCS:.c=.o)
 
