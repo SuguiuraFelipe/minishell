@@ -7,10 +7,11 @@ LIBS        := -lreadline
 
 SRCS        := src/main.c \
 			   src/exec.c \
- 			   src/parsing/libft_utils.c \
-			   src/parsing/general_utils.c \
-			   src/parsing/ft_split.c \
-			   src/parsing/syntax.c \
+ 			   src/libft_utils/libft_utils.c \
+ 			   src/libft_utils/libft_utils2.c \
+ 			   src/libft_utils/libft_utils3.c \
+			   src/general_utils/general_utils.c \
+			   src/general_utils/ft_split.c \
 			   src/parsing/input.c \
 			   src/parsing/parse_pipeline.c
 

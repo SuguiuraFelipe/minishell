@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/18 14:04:12 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/21 11:47:57 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,34 +36,26 @@ char	*ft_strdup(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
-
-
-/* split */
 char	**ft_split(char const *s, char c);
 
-/* utils */
+/* general_utils */
 void	free_split(char **v);
-int	trim_parts(char **str_arr, const char *set);
+int		trim_parts(char **str_arr, const char *set);
 void	free_split_vector_only(char **str_arr);
+char	*cat_path_and_cmd(char *s1, char *s2, char *s3);
 
-/* syntax */
-int	pipe_syntax_error(const char *s);
-
-/* input */
+/* parsing */
 void	exit_minishell(void);
-int	has_non_blank_and_free(char **line_ptr);
-int	quotes_balanced(const char *s);
+int		has_non_blank_and_free(char **line_ptr);
+int		quotes_balanced(const char *s);
 char	*read_line_or_exit(void);
-
-
-/* parse_pipeline */
 void	change_pipe(char *s);
-int	update_qmode(int qmode, char c);
-char **parse_pipeline(char *line);
-char *remove_space(char *line);
+int		update_qmode(int qmode, char c);
+char 	*remove_space(char *line);
+char 	**parse_pipeline(char *line);
+int		pipe_syntax_error(const char *s);
 
 /* exec */
-char	*cat_path_and_cmd(char *s1, char *s2, char *s3);
 void	exec_normal_commands(char **args, char **envp);
 
 

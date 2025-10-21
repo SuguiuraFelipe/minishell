@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:50:40 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/18 13:25:23 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/21 11:34:55 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	add_word(char const *str, char **word, int i, char c)
 {
 	int	k;
 
-	*word = (char *) malloc (ft_strlen_sep(str, c, i));
+	*word = (char *) malloc(ft_strlen_sep(str, c, i));
 	if (!*word)
 		return (i);
 	k = 0;
