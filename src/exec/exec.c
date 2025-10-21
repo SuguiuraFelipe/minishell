@@ -6,48 +6,62 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 13:29:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/21 11:30:03 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/21 12:12:13 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-char	*get_path(char *command, char **envp)
+static char	*find_path_in_envp(char **envp)
 {
-	int i;
-	char *string_path;
-	char **command_path;
-	char *path_result;
+	int		i;
 
 	i = 0;
-	string_path = NULL;
-	while(envp[i])
+	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			string_path = envp[i] + 5;
-			break;
-		}
+			return (envp[i] + 5);
 		i++;
 	}
-	if(!string_path)
-		return (NULL);
-	command_path = ft_split(string_path, ':');
-	i = 0;
-	while (command_path && command_path[i])
-	{
-		path_result = cat_path_and_cmd(command_path[i], "/", command);
-		if (access(path_result, X_OK) == 0)
-		{
-			free_split(command_path);
-			return (path_result);
-		}
-		free(path_result);
-		i++;
-	}
-	free_split(command_path);
 	return (NULL);
 }
+
+static char	*find_cmd_in_path(char *command, char *path_str)
+{
+	char	**path_dirs;
+	char	*full_path;
+	int		i;
+
+	if (!path_str)
+		return (NULL);
+	path_dirs = ft_split(path_str, ':');
+	if (!path_dirs)
+		return (NULL);
+	i = 0;
+	while (path_dirs[i])
+	{
+		full_path = cat_path_and_cmd(path_dirs[i], "/", command);
+		if (access(full_path, X_OK) == 0)
+		{
+			free_split(path_dirs);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	free_split(path_dirs);
+	return (NULL);
+}
+char	*get_path(char *command, char **envp)
+{
+	char	*path_str;
+
+	path_str = find_path_in_envp(envp);
+	if (!path_str)
+		return (NULL);
+	return (find_cmd_in_path(command, path_str));
+}
+
 
 void	exec_normal_commands(char **args, char **envp)
 {

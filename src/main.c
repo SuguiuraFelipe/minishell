@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:33:48 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/18 14:01:58 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/21 12:22:58 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	main(int ac, char **av, char **envp)
     	result = parse_pipeline(line);
    		if (!result)
         	continue ;
-    	exec_normal_commands(result, envp);
+		if(!is_builtin(result[0]))
+    		exec_normal_commands(result, envp);
+		else
+			printf("Coreano safado !\n");
     	//free_tokens(result);
     	free(line);
 	}

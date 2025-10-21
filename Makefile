@@ -6,7 +6,8 @@ INCLUDES    := -I.
 LIBS        := -lreadline
 
 SRCS        := src/main.c \
-			   src/exec.c \
+			   src/exec/exec.c \
+			   src/exec/check_cmd_type.c \
  			   src/libft_utils/libft_utils.c \
  			   src/libft_utils/libft_utils2.c \
  			   src/libft_utils/libft_utils3.c \

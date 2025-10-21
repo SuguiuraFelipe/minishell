@@ -6,22 +6,22 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/21 11:47:57 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/21 12:15:46 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stddef.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+# include <stddef.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 /* libft_utils */
 void	*ft_memset(void *ptr, int value, size_t num);
@@ -37,6 +37,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	**ft_split(char const *s, char c);
+int		ft_strcmp(const char *s1, const char *s2);
 
 /* general_utils */
 void	free_split(char **v);
@@ -56,6 +57,7 @@ char 	**parse_pipeline(char *line);
 int		pipe_syntax_error(const char *s);
 
 /* exec */
+int		is_builtin(char *s);
 void	exec_normal_commands(char **args, char **envp);
 
 
