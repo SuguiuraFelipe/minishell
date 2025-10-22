@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:35:49 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/21 12:02:27 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/22 13:21:31 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,31 @@ int	ft_strcmp(const char *s1, const char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+char *ft_strcpy(char *dest, const char *src)
+{
+    int i = 0;
+    while (src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+    return dest;
+}
+char *ft_strcat(char *dest, const char *src)
+{
+    int i = 0;
+    int j = 0;
+
+    while (dest[i])
+        i++;
+    while (src[j])
+    {
+        dest[i] = src[j];
+        i++;
+        j++;
+    }
+    dest[i] = '\0';
+    return dest;
 }

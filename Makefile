@@ -1,18 +1,27 @@
 
 NAME        := minishell
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror
+CFLAGS      := -Wall -Wextra -Werror -g
 INCLUDES    := -I.
 LIBS        := -lreadline
 
 SRCS        := src/main.c \
-			   src/exec/exec.c \
-			   src/exec/check_cmd_type.c \
+			   src/exec/normal_cmds.c \
+			   src/exec/exec_cmds.c \
+			   src/exec/exec_cd.c \
+			   src/exec/exec_echo.c \
+			   src/exec/exec_env.c \
+			   src/exec/exec_exit.c \
+			   src/exec/exec_export.c \
+			   src/exec/exec_pwd.c \
+			   src/exec/exec_unset.c \
  			   src/libft_utils/libft_utils.c \
  			   src/libft_utils/libft_utils2.c \
  			   src/libft_utils/libft_utils3.c \
+ 			   src/libft_utils/libft_utils4.c \
+			   src/general_utils/builtins_utils.c \
 			   src/general_utils/general_utils.c \
-			   src/general_utils/ft_split.c \
+			   src/general_utils/get_path_utils.c \
 			   src/parsing/input.c \
 			   src/parsing/parse_pipeline.c
 

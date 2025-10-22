@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_utils2.c                                     :+:      :+:    :+:   */
+/*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:46:52 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/21 11:31:14 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/22 15:31:27 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ void	free_split_vector_only(char **str_arr)
 {
 	free(str_arr);
 }
+void	ft_cmd_not_found(char *str)
+{
+	write(2, "minishell: ", 11);
+	write(2, str, ft_strlen(str));
+	write(2, ": command not found\n", 20);
+}
+
 
