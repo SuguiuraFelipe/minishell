@@ -6,7 +6,7 @@
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:38:11 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/24 18:06:31 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/10/24 19:03:09 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,52 +26,34 @@ void	change_pipe(char *s)
 	}
 }
 
-int	update_qmode(int qmode, char c)
+static char *tokenize_arguments(char *line)
 {
-	if (c == '\'' && qmode != 2)
-	{
-		if (qmode == 1)
-			return (0);
-		else
-			return (1);
-	}
-	if (c == '"' && qmode != 1)
-	{
-		if (qmode == 2)
-			return (0);
-		else
-			return (2);
-	}
-	return (qmode);
-}
-
-char *remove_space(char *line)
-{
-    int i = 0;
-    int k = 0;
-    char *result;
+    char    *result;
+    int     i = 0;
+    int     j = 0;
+    int     qmode = 0;
 
     if (!line)
         return (NULL);
     result = malloc(strlen(line) + 1);
     if (!result)
         return (NULL);
-
     while (line[i])
     {
-        if (line[i] == ' ' && line[i + 1] && line[i + 1] != ' ' && i > 0 
-			&& line[i - 1] != ' ')
+        qmode = update_qmode(qmode, line[i]);
+        if (qmode == 0 && (line[i] == ' ' || line[i] == '\t'))
         {
-            result[k++] = '\2';
-            i++;
-            continue;
+            while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+                i++;
+            if (i > 0)
+                result[j++] = '\2';
+            continue ;
         }
-        result[k++] = line[i++];
+        result[j++] = line[i++];
     }
-    result[k] = '\0';
+    result[j] = '\0';
     return (result);
 }
-
 
 char **parse_pipeline(char *line)
 {
@@ -82,7 +64,7 @@ char **parse_pipeline(char *line)
 
 	i = 0;
 	change_pipe(line);
-	result = remove_space(line);
+	result = tokenize_arguments(line);
 	parts = ft_split(result, '\2');
 	free(result);
 	if (!parts)

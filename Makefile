@@ -1,7 +1,8 @@
 
 NAME        := minishell
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include
+LDFLAGS = -L/opt/homebrew/opt/readline/lib -lreadline
 INCLUDES    := -I.
 LIBS        := -lreadline
 
@@ -31,7 +32,7 @@ OBJS        := $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c minishell.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
