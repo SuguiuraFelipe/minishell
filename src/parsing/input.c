@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:37:26 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/21 11:39:14 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/24 17:24:40 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ extern int	g_status;
 
 void	exit_minishell(void)
 {
-	write(1, "Exit\n", 5);
+	if (isatty(STDIN_FILENO))
+		write(1, "exit\n", 5);
 	exit(g_status);
 }
 

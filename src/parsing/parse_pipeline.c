@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:38:11 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/21 11:45:59 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/24 18:06:31 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,12 @@ char *remove_space(char *line)
 
 char **parse_pipeline(char *line)
 {
+	char	*tmp;
 	char 	*result;
 	char	**parts;
+	int	i;
 
+	i = 0;
 	change_pipe(line);
 	result = remove_space(line);
 	parts = ft_split(result, '\2');
@@ -88,6 +91,13 @@ char **parse_pipeline(char *line)
 	{
 		free_split(parts);
 		return (NULL);
+	}
+	while (parts[i])
+	{
+		tmp = remove_quotes(parts[i]);
+		free(parts[i]);
+		parts[i] = tmp;
+		i++;
 	}
 	return (parts);
 }
