@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/25 17:38:08 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/25 19:25:06 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	**ft_split(char const *s, char c);
 int		ft_strcmp(const char *s1, const char *s2);
 
 /* general_utils */
+void	do_not_return(int ac, char **av);
 char	*cat_path_and_cmd(char *s1, char *s2, char *s3);
 int		trim_parts(char **str_arr, const char *set);
 void	free_split(char **v);

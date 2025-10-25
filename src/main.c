@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:33:48 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/25 17:37:32 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/25 19:24:01 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,15 @@ static void	setup_signal_handlers(void)
 	signal(SIGQUIT, SIG_IGN); 
 }
 
+void	do_not_return(int ac, char **av)
+{
+	(void) ac;
+	(void) av;
+	return;
+}
 int	main(int ac, char **av, char **envp)
 {
-	(void)ac;
-	(void)av;
+	do_not_return(ac, av);
 	char			*line;
 	char			**result;
 	char			**duplicated_env;
@@ -53,7 +58,6 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
-		expand_amb_variables(envp, result);
 		exec_commands(result, duplicated_env, builtins);
 		free_split(result);
 		free(line);

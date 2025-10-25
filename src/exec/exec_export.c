@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:03:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/25 17:42:26 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/25 19:04:46 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,46 @@ static int var_already_exist(char **dup_envp, char *var_name, char *new_var)
     }
     return 0;
 }
+static char	*var_concatenation(char *s1, char *s2, char *s3)
+{
+	char	*temp;
+	char	*result;
+
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	temp = ft_strjoin(s1, s2);
+	if (!temp)
+		return (NULL);
+	result = ft_strjoin(temp, s3);
+	free(temp);
+	return (result);
+}
 
 void exec_export(char **args, char **dup_envp)
 {
     int i;
+    int j;
     char *new_var;
-    char *var_name;
+    char *var_value;
 
+    j = 0;
     i = 1;
     while (args[i])
     {
         new_var = args[i];
-        var_name = ft_strchr(new_var, '=');
-        if (!var_name)
-            continue;
-        *var_name = '\0';
-        var_name = new_var;
-
-        if (!var_already_exist(dup_envp, var_name, new_var))
+        var_value = ft_strchr(new_var, '=');
+        if (!var_value)
         {
-            int j = 0;
+            i++;
+            continue;
+        }
+        *var_value = '\0';
+        var_value++;
+        if (!var_already_exist(dup_envp, var_value, new_var))
+        {
             while (dup_envp[j])
                 j++;
-            dup_envp[j] = ft_strdup(new_var);
+            dup_envp[j] = ft_strdup(var_concatenation(new_var, "=", var_value));
             dup_envp[j + 1] = NULL;
         }
         i++;
