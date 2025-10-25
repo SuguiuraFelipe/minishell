@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/24 19:24:27 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/10/25 17:38:08 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		update_qmode(int qmode, char c);
 char 	*remove_space(char *line);
 char 	**parse_pipeline(char *line);
 int		pipe_syntax_error(const char *s);
+void    expand_amb_variables(char **envp, char **result);
 char	*remove_quotes(char *s);
 
 /* builtin_utils */

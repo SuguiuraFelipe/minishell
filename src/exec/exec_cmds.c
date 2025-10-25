@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:06:13 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/22 14:42:58 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/10/25 17:40:55 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void init_builtin_map(t_builtin_map *builtins)
 void exec_commands(char **args, char **envp, t_builtin_map *builtins)
 {
     int i = 0;
+    
+    expand_amb_variables(envp, args);
     while (builtins[i].name)
     {
         if (!ft_strcmp(args[0], builtins[i].name))

@@ -24,6 +24,7 @@ SRCS        := src/main.c \
 			   src/general_utils/general_utils.c \
 			   src/general_utils/get_path_utils.c \
 			   src/parsing/input.c \
+			   src/parsing/expand.c \
 			   src/parsing/quotes.c \
 			   src/parsing/parse_pipeline.c
 

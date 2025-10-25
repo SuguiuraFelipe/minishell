@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:33:48 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/24 19:25:40 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/10/25 17:37:32 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
+		expand_amb_variables(envp, result);
 		exec_commands(result, duplicated_env, builtins);
 		free_split(result);
 		free(line);
