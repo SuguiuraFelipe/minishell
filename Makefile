@@ -7,8 +7,8 @@ INCLUDES    := -I.
 LIBS        := -lreadline
 
 SRCS        := src/main.c \
-			   src/exec/normal_cmds.c \
-			   src/exec/exec_cmds.c \
+			   src/exec/exec_normal_cmds.c \
+			   src/exec/exec_builtins_cmds.c \
 			   src/exec/exec_cd.c \
 			   src/exec/exec_echo.c \
 			   src/exec/exec_env.c \
@@ -23,6 +23,7 @@ SRCS        := src/main.c \
 			   src/general_utils/builtins_utils.c \
 			   src/general_utils/general_utils.c \
 			   src/general_utils/general_utils2.c \
+			   src/general_utils/redirection_utils.c \
 			   src/general_utils/get_path_utils.c \
 			   src/parsing/input.c \
 			   src/parsing/expand.c \
