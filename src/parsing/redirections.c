@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/10/27 17:57:51 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:59:33 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ static void red_append(char **args)
     args[i] = NULL;
     args[i + 1] = NULL;
 }
+
+// falta funcionar direito sem argumentos de comandos passando << como primeiro argumento
+// precisa nao aparecer erro do execve 
+// precisa tirar o Bad address pois nao existe no bash original
 
 static void red_here_doc(char **args)
 {
