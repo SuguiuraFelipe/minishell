@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/27 07:44:33 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 08:20:24 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ int					pipe_syntax_error(const char *s);
 void				expand_amb_variables(char **envp, char **result);
 char				*remove_quotes(char *s);
 void				red_out(char **args);
+void				red_append(char **args);
+void				red_in(char **args);
+void				red_here_doc(char **args);
 
 /* builtin_utils */
 int					is_builtin(char *s);

@@ -1,0 +1,6 @@
+arquivos.txt
+inc
+Makefile
+minishell
+oi.txt
+src
