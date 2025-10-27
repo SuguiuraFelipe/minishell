@@ -1,5 +1,0 @@
-arquivos.txt
-inc
-Makefile
-minishell
-src
