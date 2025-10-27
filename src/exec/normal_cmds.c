@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 13:29:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/27 08:22:38 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:46:21 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
 {
 	if (pid == 0)
 	{
-		red_here_doc(args);
-		red_out(args);
-		red_append(args);
-		red_in(args);
+		redirections(args);
 		execve(path, args, envp);
 		perror("execve");
 		exit(1);

@@ -6,32 +6,11 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/10/27 16:33:16 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:01:08 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void redirections(char **args)
-{
-    int i;
-    int fd;
-
-    i = -1;
-    while (args[++i])
-    {
-        if (!args[i + 1])
-            break;
-        if (ft_strcmp(args[i], ">") == 0)
-            red_out(args[i + 1]);
-        else if (ft_strcmp(args[i], ">>") == 0)
-            red_append(args[i + 1]);
-        else if (ft_strcmp(args[i], "<") == 0)
-            red_in(args[i + 1]);
-        else if (ft_strcmp(args[i], "<<") == 0)
-            red_heredoc(args[i + 1]);
-    }
-}
 
 static int check_fail_red_simbol(char **args, int i, char *simbol)
 {
@@ -60,89 +39,65 @@ static int check_fail_red_simbol(char **args, int i, char *simbol)
     }
     return (0);
 }
+static void red_in(char **args)
+{
+    int i = 0;
+    int fd;
 
-void red_out(char **args)
+    if (check_fail_red_simbol(args, i, "<"))
+        return;
+    fd = open(args[i + 1], O_RDONLY);
+    check_valid_fd(fd);
+    dup2(fd, STDIN_FILENO);
+    close(fd);
+    int j = i;
+    while (args[j + 2])
+    {
+        args[j] = args[j + 2];
+        j++;
+    }
+    args[j] = NULL;
+    args[j + 1] = NULL;
+}
+static void red_out(char **args)
 {
     int i;
     int fd;
 
     i = 0;
-    while (args[i])
-    {
-        if (ft_strcmp(args[i], ">") == 0)
-        {
-            if (check_fail_red_simbol(args, i, ">"))
-                return;
-            fd = open(args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            check_valid_fd(fd);
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-            args[i] = NULL;
-            args[i + 1] = NULL;
-            break;
-        }
-        i++;
-    }
+    if (check_fail_red_simbol(args, i, ">"))
+        return;
+    fd = open(args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    check_valid_fd(fd);
+    dup2(fd, STDOUT_FILENO);
+    close(fd);
+    args[i] = NULL;
+    args[i + 1] = NULL;
 }
 
-void red_append(char **args)
+static void red_append(char **args)
 {
     int i;
     int fd;
 
-    i = -1;
-    while (args[++i])
+    i = 0;
+    if (check_fail_red_simbol(args, i, ">>"))
+        return;
+    fd = open(args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+    check_valid_fd(fd);
+    dup2(fd, STDOUT_FILENO);
+    close(fd);
+    int j = i;
+    while (args[j + 2])
     {
-        if (ft_strcmp(args[i], ">>") == 0)
-        {
-            if (check_fail_red_simbol(args, i, ">>"))
-                return;
-            fd = open(args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-            check_valid_fd(fd);
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-            int j = i;
-            while (args[j + 2])
-            {
-                args[j] = args[j + 2];
-                j++;
-            }
-            args[j] = NULL;
-            args[j + 1] = NULL;
-            continue;
-        }
+        args[j] = args[j + 2];
+        j++;
     }
-}
-void red_in(char **args)
-{
-    int i = 0;
-    int fd;
-
-    while (args[i])
-    {
-        if (ft_strcmp(args[i], "<") == 0)
-        {
-            if (check_fail_red_simbol(args, i, "<"))
-                return;
-            fd = open(args[i + 1], O_RDONLY);
-            check_valid_fd(fd);
-            dup2(fd, STDIN_FILENO);
-            close(fd);
-            int j = i;
-            while (args[j + 2])
-            {
-                args[j] = args[j + 2];
-                j++;
-            }
-            args[j] = NULL;
-            args[j + 1] = NULL;
-            continue;
-        }
-        i++;
-    }
+        args[j] = NULL;
+        args[j + 1] = NULL;
 }
 
-void red_here_doc(char **args)
+static void red_here_doc(char **args)
 {
     int i = 0;
     int pipefd[2];
@@ -182,6 +137,26 @@ void red_here_doc(char **args)
             args[j + 1] = NULL;
             break;
         }
+        i++;
+    }
+}
+void redirections(char **args)
+{
+    int i;
+
+    i = 0;
+    while (args[i])
+    {
+        if (!args[i + 1])
+            break;
+        if (ft_strcmp(args[i], ">") == 0)
+            red_in(&args[i++]);
+        else if (ft_strcmp(args[i], ">>") == 0)
+            red_out(&args[i++]);
+        else if (ft_strcmp(args[i], "<") == 0)
+            red_append(&args[i++]);
+        else if (ft_strcmp(args[i], "<<") == 0)
+            red_here_doc(&args[i++]);
         i++;
     }
 }
