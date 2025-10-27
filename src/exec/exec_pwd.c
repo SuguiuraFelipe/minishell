@@ -14,8 +14,8 @@
 
 void	exec_pwd(char **args, char **dup_envp)
 {
-	char *pwd_path;
-	
+	char	*pwd_path;
+
 	(void)args;
 	pwd_path = ft_strdup(find_path_in_envp(dup_envp, "PWD"));
 	printf("%s\n", pwd_path);

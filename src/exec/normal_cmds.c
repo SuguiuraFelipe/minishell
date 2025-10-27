@@ -6,45 +6,17 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 13:29:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/27 07:16:24 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 07:25:49 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void redirect_out_all(char **args)
-{
-    int i;
-    int fd;
-
-	i = 0;
-    while (args[i])
-    {
-        if (strcmp(args[i], ">") == 0 && args[i + 1])
-        {
-            if (i == 0)
-            {
-                fprintf(stderr, "minishell: syntax error near unexpected token `>'\n");
-                return;
-            }
-            fd = open(args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			check_valid_fd(fd);
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-            args[i] = NULL;
-            args[i + 1] = NULL;
-            i += 2;
-            continue;
-        }
-        i++;
-    }
-}
-
 static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
 {
 	if (pid == 0)
 	{
-		redirect_out_all(args);
+		red_out(args);
 		execve(path, args, envp);
 		perror("execve");
 		exit(1);
@@ -60,7 +32,7 @@ void	exec_normal_commands(char **args, char **envp)
 	char	*path;
 
 	if (!args || !args[0])
-		return;
+		return ;
 	path = get_path(args[0], envp);
 	if (!path)
 		ft_cmd_not_found(args[0]);
