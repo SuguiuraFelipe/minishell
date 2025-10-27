@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/25 20:00:21 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 07:16:52 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
@@ -64,6 +65,7 @@ void	free_split_vector_only(char **str_arr);
 void	ft_cmd_not_found(char *str);
 char	*find_path_in_envp(char **envp, char *var_name);
 char	*get_path(char *command, char **envp);
+void	check_valid_fd(int fd);
 
 /* parsing */
 void	exit_minishell(void);
@@ -77,6 +79,7 @@ char 	**parse_pipeline(char *line);
 int		pipe_syntax_error(const char *s);
 void    expand_amb_variables(char **envp, char **result);
 char	*remove_quotes(char *s);
+void    redirect_out_all(char **args);
 
 /* builtin_utils */
 int		is_builtin(char *s);

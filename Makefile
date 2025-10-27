@@ -22,6 +22,7 @@ SRCS        := src/main.c \
  			   src/libft_utils/libft_utils4.c \
 			   src/general_utils/builtins_utils.c \
 			   src/general_utils/general_utils.c \
+			   src/general_utils/general_utils2.c \
 			   src/general_utils/get_path_utils.c \
 			   src/parsing/input.c \
 			   src/parsing/expand.c \
