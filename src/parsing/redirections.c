@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/10/27 09:30:30 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:59:48 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static int check_fail_red_simbol(char **args, int i, char *simbol)
     int j;
     
     j = 0;
-    *simbols[0] = ">";
-    *simbols[1] = ">>";
-    *simbols[2] = "<";
-    *simbols[3] = "<<";
-    *simbols[4] = NULL;
+    simbols[0] = ">";
+    simbols[1] = ">>";
+    simbols[2] = "<";
+    simbols[3] = "<<";
+    simbols[4] = NULL;
     if (!args[i + 1])
     {
         while (simbols[j])
