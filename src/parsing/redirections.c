@@ -6,11 +6,32 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/10/27 15:59:48 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:33:16 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void redirections(char **args)
+{
+    int i;
+    int fd;
+
+    i = -1;
+    while (args[++i])
+    {
+        if (!args[i + 1])
+            break;
+        if (ft_strcmp(args[i], ">") == 0)
+            red_out(args[i + 1]);
+        else if (ft_strcmp(args[i], ">>") == 0)
+            red_append(args[i + 1]);
+        else if (ft_strcmp(args[i], "<") == 0)
+            red_in(args[i + 1]);
+        else if (ft_strcmp(args[i], "<<") == 0)
+            red_heredoc(args[i + 1]);
+    }
+}
 
 static int check_fail_red_simbol(char **args, int i, char *simbol)
 {
