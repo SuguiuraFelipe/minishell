@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/27 16:37:46 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:57:36 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void				ft_cmd_not_found(char *str);
 char				*find_path_in_envp(char **envp, char *var_name);
 char				*get_path(char *command, char **envp);
 void				check_valid_fd(int fd);
+void				ft_perror(char *s);
+
+/* redirection utils */
+int		check_fail_red_simbol(char **args, int i, char *simbol);
+char    *set_here_doc_line(int *arr, char **args, int i);
+void	dup_and_close_here_doc(int *arr);
 
 /* parsing */
 void				exit_minishell(void);
