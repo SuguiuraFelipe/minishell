@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins_cmds.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:06:13 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/27 18:24:34 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:50:41 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,32 @@ void	init_builtin_map(t_builtin_map *builtins)
 	builtins[7].name = NULL;
 	builtins[7].func = NULL;
 }
-void	exec_commands(char **args, char **envp, t_builtin_map *builtins)
+void exec_commands(char **args, char **envp, t_builtin_map *builtins)
 {
-	int	i;
+    int i;
+    int saved_stdin;
+    int saved_stdout;
 
-	i = 0;
-	expand_amb_variables(envp, args);
-	while (builtins[i].name)
-	{
-		if (!ft_strcmp(args[0], builtins[i].name))
-		{
-			builtins[i].func(args, envp);
-			return ;
-		}
-		i++;
-	}
-	exec_normal_commands(args, envp);
+    i = 0;
+    expand_amb_variables(envp, args);
+    saved_stdin = dup(STDIN_FILENO);
+    saved_stdout = dup(STDOUT_FILENO);
+
+    while (builtins[i].name)
+    {
+        if (!ft_strcmp(args[0], builtins[i].name))
+        {
+            redirections(args);
+            builtins[i].func(args, envp);
+            dup2(saved_stdin, STDIN_FILENO);
+            dup2(saved_stdout, STDOUT_FILENO);
+            close(saved_stdin);
+            close(saved_stdout);
+            return;
+        }
+        i++;
+    }
+
+    exec_normal_commands(args, envp);
 }
+

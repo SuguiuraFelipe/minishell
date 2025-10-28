@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:03:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/27 07:40:33 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:46:04 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static char	*var_concatenation(char *s1, char *s2, char *s3)
 }
 static int    dont_have_value(char *var_value, int i)
 {
+	(void)i;
     if(!var_value)
     {
         i++;
@@ -56,6 +57,7 @@ static int    dont_have_value(char *var_value, int i)
     }
     return (0);
 }
+
 void	exec_export(char **args, char **dup_envp)
 {
 	int		i;

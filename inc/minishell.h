@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/27 17:57:36 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:40:23 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 # define MINISHELL_H
 
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
+# include <stdio.h>
 # include <signal.h>
 # include <stddef.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define MAX_DIR_SIZE 4096
 

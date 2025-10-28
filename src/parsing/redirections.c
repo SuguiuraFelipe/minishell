@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/10/27 18:23:22 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:48:05 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static void red_here_doc(char **args)
     int i;
     int j;
     int pipefd[2];
-    char *line;
 
     i = -1;
     while (args[++i])
@@ -79,7 +78,7 @@ static void red_here_doc(char **args)
                 return;
             if (pipe(pipefd) < 0)
                 ft_perror("pipe");
-            line = set_here_doc_line(pipefd, args, i);
+            set_here_doc_line(pipefd, args, i);
             dup_and_close_here_doc(pipefd);
             j = (i - 1);
             while (args[(++j) + 2])
@@ -90,6 +89,7 @@ static void red_here_doc(char **args)
         }
     }
 }
+
 void redirections(char **args)
 {
     int i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:33:48 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/27 08:01:19 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:01:33 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	do_not_return(int ac, char **av)
 	(void) av;
 	return;
 }
+
 int	main(int ac, char **av, char **envp)
 {
 	do_not_return(ac, av);
