@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/31 18:39:07 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/31 19:57:26 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+int	g_status;
 
 # define MAX_DIR_SIZE 4096
 
@@ -86,6 +88,10 @@ int					pipe_syntax_error(const char *s);
 void				expand_amb_variables(char **envp, char **result);
 char				*remove_quotes(char *s);
 void				redirections(char **args);
+int ms_is_pipeline(char **cmdv);
+void    ms_dispatch(char **cmdv, char **envp, t_builtin_map *builtins);
+void    ms_exec_single(char *cmdstr, char **envp, t_builtin_map *builtins);
+void    ms_exec_pipeline(char **cmdv, char **envp, t_builtin_map *builtins);
 
 
 /* builtin_utils */

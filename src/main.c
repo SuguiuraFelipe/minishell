@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:33:48 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/31 19:17:39 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:11:27 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int g_status = 0;
+int	g_status = 0;
 
 static void	handle_sigint(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -27,24 +26,23 @@ static void	handle_sigint(int sig)
 static void	setup_signal_handlers(void)
 {
 	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN); 
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	do_not_return(int ac, char **av)
 {
-	(void) ac;
-	(void) av;
-	return;
+	(void)ac;
+	(void)av;
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	do_not_return(ac, av);
 	char			*line;
-	char			**result;
+	char			**cmdv;
 	char			**duplicated_env;
 	t_builtin_map	builtins[8];
 
+	do_not_return(ac, av);
 	duplicated_env = dup_envp(envp);
 	init_builtin_map(builtins);
 	setup_signal_handlers();
@@ -52,20 +50,15 @@ int	main(int ac, char **av, char **envp)
 	{
 		line = read_line_or_exit();
 		if (!line)
-			continue ;
-		if(!has_pipe(line))
-			result = parse_pipeline(line);
-		else
-			result = ft_split(line, ' ');
-		if (!result)
-		{
-			free(line);
-			continue ;
-		}
-		exec_commands(result, duplicated_env, builtins);
-		free_split(result);
+			continue;
+		/* sempre o mesmo parser, com ou sem '|' */
+		cmdv = parse_pipeline(line);
 		free(line);
+		if (!cmdv)
+			continue;
+		/* 1 comando -> single; >1 -> pipeline */
+		ms_dispatch(cmdv, duplicated_env, builtins);
+		free_split(cmdv);
 	}
 	return (0);
 }
-

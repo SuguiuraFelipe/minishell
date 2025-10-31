@@ -3,92 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:38:11 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/31 19:14:45 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:11:57 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+/*
+** update_qmode() está em quotes.c
+** 0 = fora de aspas
+** 1 = dentro de '
+** 2 = dentro de "
+*/
+
 void	change_pipe(char *s)
 {
-	int i = 0;
-	int q = 0;
+	int	i;
+	int	q;
 
+	if (!s)
+		return ;
+	i = 0;
+	q = 0;
 	while (s[i])
 	{
 		q = update_qmode(q, s[i]);
-		if (s[i] == '|' && q == 0)
+		if (q == 0 && s[i] == '|')
 			s[i] = '\2';
 		i++;
 	}
 }
 
-static char *tokenize_arguments(char *line)
+/*
+** Devolve:
+**  "echo hello | cat | cat"
+**  -> ["echo hello", "cat", "cat", NULL]
+**
+** NÃO quebra por espaço. NÃO remove aspas.
+** Só separa os blocos do pipeline e tira espaços/\t/\n/\r das pontas.
+*/
+char	**parse_pipeline(char *line)
 {
-    char    *result;
-    int     i = 0;
-    int     j = 0;
-    int     qmode = 0;
-
-    if (!line)
-        return (NULL);
-    result = malloc(strlen(line) + 1);
-    if (!result)
-        return (NULL);
-    while (line[i])
-    {
-        qmode = update_qmode(qmode, line[i]);
-        if (qmode == 0 && (line[i] == ' ' || line[i] == '\t'))
-        {
-            while (line[i] && (line[i] == ' ' || line[i] == '\t'))
-                i++;
-            if (i > 0)
-                result[j++] = '\2';
-            continue ;
-        }
-        result[j++] = line[i++];
-    }
-    result[j] = '\0';
-    return (result);
-}
-
-char **parse_pipeline(char *line)
-{
-	char	*tmp;
-	char 	*result;
 	char	**parts;
-	int	i;
 
-	i = 0;
+	if (!line)
+		return (NULL);
 	change_pipe(line);
-	result = tokenize_arguments(line);
-	parts = ft_split(result, '\2');
-	free(result);
+	parts = ft_split(line, '\2');
 	if (!parts)
 		return (NULL);
-	if (!trim_parts(parts, " \t"))
+	/* aqui estava o problema: limpar também \n e \r */
+	if (!trim_parts(parts, " \t\n\r"))
 	{
 		free_split(parts);
 		return (NULL);
 	}
-	while (parts[i])
-	{
-		tmp = remove_quotes(parts[i]);
-		free(parts[i]);
-		parts[i] = tmp;
-		i++;
-	}
 	return (parts);
 }
+
+/*
+** usado no input.c para rejeitar "||" e pipe no início/fim
+*/
 int	pipe_syntax_error(const char *s)
 {
-	size_t	i = 0;
-	int		q = 0;
-	int		need = 1;
+	size_t	i;
+	int		q;
+	int		need;
 
+	i = 0;
+	q = 0;
+	need = 1;
 	while (s && s[i])
 	{
 		char	c;

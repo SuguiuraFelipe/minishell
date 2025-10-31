@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normal_cmds.c                                      :+:      :+:    :+:   */
+/*   exec_normal_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 13:29:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/27 17:52:45 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:13:21 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
+static void	init_and_check_execve(int pid, char *path,
+						char **args, char **envp)
 {
 	if (pid == 0)
 	{
@@ -26,6 +27,7 @@ static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
 	else
 		perror("fork");
 }
+
 void	exec_normal_commands(char **args, char **envp)
 {
 	int		pid;
@@ -35,7 +37,10 @@ void	exec_normal_commands(char **args, char **envp)
 		return ;
 	path = get_path(args[0], envp);
 	if (!path)
+	{
 		ft_cmd_not_found(args[0]);
+		return ;
+	}
 	pid = fork();
 	init_and_check_execve(pid, path, args, envp);
 	free(path);
