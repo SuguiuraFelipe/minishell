@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:33:48 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/28 18:01:33 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/10/31 19:17:39 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ int	main(int ac, char **av, char **envp)
 		line = read_line_or_exit();
 		if (!line)
 			continue ;
-		result = parse_pipeline(line);
+		if(!has_pipe(line))
+			result = parse_pipeline(line);
+		else
+			result = ft_split(line, ' ');
 		if (!result)
 		{
 			free(line);

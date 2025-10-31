@@ -16,6 +16,8 @@ SRCS        := src/main.c \
 			   src/exec/exec_export.c \
 			   src/exec/exec_pwd.c \
 			   src/exec/exec_unset.c \
+			   src/exec/exec_redirections.c \
+			   src/exec/exec_pipes.c \
  			   src/libft_utils/libft_utils.c \
  			   src/libft_utils/libft_utils2.c \
  			   src/libft_utils/libft_utils3.c \
@@ -28,7 +30,6 @@ SRCS        := src/main.c \
 			   src/parsing/input.c \
 			   src/parsing/expand.c \
 			   src/parsing/quotes.c \
-			   src/parsing/redirections.c \
 			   src/parsing/parse_pipeline.c
 
 OBJS        := $(SRCS:.c=.o)

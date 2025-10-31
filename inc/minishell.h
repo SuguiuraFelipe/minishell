@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/28 17:40:23 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/10/31 18:39:07 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,7 @@ void				exec_exit(char **args, char **dup_envp);
 void				exec_env(char **args, char **dup_envp);
 void				exec_unset(char **args, char **dup_envp);
 void				exec_export(char **args, char **dup_envp);
+int					has_pipe(char *s);
+int					count_pipes(char *s);
 
 #endif
