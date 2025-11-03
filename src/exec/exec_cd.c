@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:58:51 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/03 20:29:17 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/03 21:06:13 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,21 @@ static void	update_envp_variables(char **dup_envp, const char *var_name,
 	}
 	free(new_str);
 }
-
+static int	check_path_and_args(char **args, char *path, char *last_pwd)
+{
+	if (!path)
+	{
+        free(last_pwd);
+		return (0);
+	}
+    if (args[2])
+    {
+        write(2, "cd: too many arguments\n", 23);
+        free(last_pwd);
+		return (0);
+    }
+	return (1);
+}
 void exec_cd(char **args, char **dup_envp)
 {
     char current_path[MAX_DIR_SIZE];
@@ -60,17 +74,8 @@ void exec_cd(char **args, char **dup_envp)
 
     last_pwd = ft_strdup(find_path_in_envp(dup_envp, "PWD"));
     path = get_cd_arguments(args);
-    if (!path)
-    {
-        free(last_pwd);
-        return ;
-    }
-    if (args[2])
-    {
-        write(2, "cd: too many arguments\n", 23);
-        free(last_pwd);
-        return ;
-    }
+    if(!check_path_and_args(args, path, last_pwd))
+		return;
     if (chdir(path) != 0)
     {
         perror("cd");
