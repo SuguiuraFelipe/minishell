@@ -3,45 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   exec_normal_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 13:29:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/31 20:13:21 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:57:14 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	init_and_check_execve(int pid, char *path,
-						char **args, char **envp)
+static char **check_sign_and_expand(char **args, char **envp)
 {
-	if (pid == 0)
-	{
-		redirections(args);
-		execve(path, args, envp);
-		perror("execve");
-		exit(1);
-	}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
-	else
-		perror("fork");
+    char *val;
+    char *clean;
+
+    if (!args || !args[0])
+        return args;
+    if (args[0][0] == '$')
+    {
+        val = find_path_in_envp(envp, args[0] + 1);
+        if (!val)
+            return NULL;
+        clean = remove_quotes(val);
+        return parse_pipeline(clean); 
+    }
+    return args;
 }
 
-void	exec_normal_commands(char **args, char **envp)
+void exec_normal_commands(char **args, char **envp)
 {
-	int		pid;
-	char	*path;
+    int pid;
+    char *path;
+    char **exec_args;
 
-	if (!args || !args[0])
-		return ;
-	path = get_path(args[0], envp);
-	if (!path)
-	{
-		ft_cmd_not_found(args[0]);
-		return ;
-	}
-	pid = fork();
-	init_and_check_execve(pid, path, args, envp);
-	free(path);
+    if (!args || !args[0])
+        return ;
+    exec_args = check_sign_and_expand(args, envp);
+    if (!exec_args)
+        return ;
+    path = get_path(exec_args[0], envp);
+    if (!path)
+    {
+        ft_cmd_not_found(exec_args[0]);
+        if (exec_args != args)
+            free_split(exec_args);
+        return ;
+    }
+    pid = fork();
+    if (pid == 0)
+    {
+        redirections(exec_args);
+        execve(path, exec_args, envp);
+        perror("execve");
+        exit(1);
+    }
+    else if (pid > 0)
+        waitpid(pid, NULL, 0);
+    else
+        perror("fork");
+    if (exec_args != args)
+        free_split(exec_args);
+    free(path);
 }

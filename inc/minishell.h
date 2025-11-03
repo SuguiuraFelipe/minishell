@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/03 19:55:29 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/03 20:20:16 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 
 # include <fcntl.h>
 # include <stdio.h>
+# include <unistd.h>
 # include <signal.h>
 # include <stddef.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
-# include <unistd.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -87,7 +89,7 @@ char				**parse_pipeline(char *line);
 int					pipe_syntax_error(const char *s);
 void				expand_amb_variables(char **envp, char **result);
 char				*remove_quotes(char *s);
-void				redirections(char **args);
+int				redirections(char **args);
 int ms_is_pipeline(char **cmdv);
 void    ms_dispatch(char **cmdv, char **envp, t_builtin_map *builtins);
 void    ms_exec_single(char *cmdstr, char **envp, t_builtin_map *builtins);

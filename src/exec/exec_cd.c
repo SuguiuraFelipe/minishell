@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:58:51 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/27 16:09:34 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:29:17 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,36 @@ static void	update_envp_variables(char **dup_envp, const char *var_name,
 	free(new_str);
 }
 
-void	exec_cd(char **args, char **dup_envp)
+void exec_cd(char **args, char **dup_envp)
 {
-	char	current_path[MAX_DIR_SIZE];
-	char	*last_pwd;
-	char	*path;
+    char current_path[MAX_DIR_SIZE];
+    char *last_pwd;
+    char *path;
 
-	last_pwd = ft_strdup(find_path_in_envp(dup_envp, "PWD"));
-	path = get_cd_arguments(args);
-	if (!path)
-	{
-		free(last_pwd);
-		return ;
-	}
-	if (chdir(path) != 0)
-	{
-		perror("cd");
-		free(last_pwd);
-		return ;
-	}
-	if (getcwd(current_path, sizeof(current_path)))
-	{
-		update_envp_variables(dup_envp, "OLDPWD", last_pwd);
-		update_envp_variables(dup_envp, "PWD", current_path);
-	}
-	free(last_pwd);
+    last_pwd = ft_strdup(find_path_in_envp(dup_envp, "PWD"));
+    path = get_cd_arguments(args);
+    if (!path)
+    {
+        free(last_pwd);
+        return ;
+    }
+    if (args[2])
+    {
+        write(2, "cd: too many arguments\n", 23);
+        free(last_pwd);
+        return ;
+    }
+    if (chdir(path) != 0)
+    {
+        perror("cd");
+        free(last_pwd);
+        return ;
+    }
+    if (getcwd(current_path, sizeof(current_path)))
+    {
+        update_envp_variables(dup_envp, "OLDPWD", last_pwd);
+        update_envp_variables(dup_envp, "PWD", current_path);
+    }
+    free(last_pwd);
 }
+

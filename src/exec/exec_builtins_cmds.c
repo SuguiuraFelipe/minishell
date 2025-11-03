@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins_cmds.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:06:13 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/28 17:50:41 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:57:29 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void exec_commands(char **args, char **envp, t_builtin_map *builtins)
     {
         if (!ft_strcmp(args[0], builtins[i].name))
         {
-            redirections(args);
-            builtins[i].func(args, envp);
+            if (!redirections(args))
+                builtins[i].func(args, envp);
             dup2(saved_stdin, STDIN_FILENO);
             dup2(saved_stdout, STDOUT_FILENO);
             close(saved_stdin);
