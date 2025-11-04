@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:03:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/28 17:46:04 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/04 17:00:21 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exec_export(char **args, char **dup_envp)
 		new_var = args[i];
 		var_value = ft_strchr(new_var, '=');
 		if (dont_have_value(var_value, i))
-			continue ;
+			break ;
 		*var_value = '\0';
 		var_value++;
 		if (!var_already_exist(dup_envp, var_value, new_var))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:50:49 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/04 10:03:57 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/04 16:42:01 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ static void check_value(char **result, char *value, int i)
         free(result[i]);
         result[i] = ft_strdup("");
     }
+}
+int is_number(char c)
+{
+    return (c >= '0' && c <= '9');
 }
 void    expand_amb_variables(char **envp, char **result)
 {

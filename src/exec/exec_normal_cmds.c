@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_normal_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 08:41:47 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/04 09:38:31 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/04 17:04:45 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void    exec_normal_commands(char **args, char **envp, int original_stdin_fd)
     if (!args || !args[0])
         return ;
     red_res = redirections(args);
-
     if (red_res == -1 || !args[0])
     {
         dup2(original_stdin_fd, STDIN_FILENO); 
