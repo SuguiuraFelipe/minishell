@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:22:16 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/03 20:19:52 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/04 10:05:05 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,16 @@ int check_fail_red_simbol(char **args, int i, char *simbol)
             }
             j++;
         }
+    }
+    return (0);
+}
+int free_here_doc(char **args, int i, char *simbol)
+{
+    if (check_fail_red_simbol(args, i, simbol))
+    {
+        free(args[i]);
+        args[i] = NULL;
+        return (1);
     }
     return (0);
 }

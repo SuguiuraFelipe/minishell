@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:38:11 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/31 20:11:57 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/03 21:11:02 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-/*
-** update_qmode() está em quotes.c
-** 0 = fora de aspas
-** 1 = dentro de '
-** 2 = dentro de "
-*/
 
 void	change_pipe(char *s)
 {
@@ -36,15 +29,6 @@ void	change_pipe(char *s)
 		i++;
 	}
 }
-
-/*
-** Devolve:
-**  "echo hello | cat | cat"
-**  -> ["echo hello", "cat", "cat", NULL]
-**
-** NÃO quebra por espaço. NÃO remove aspas.
-** Só separa os blocos do pipeline e tira espaços/\t/\n/\r das pontas.
-*/
 char	**parse_pipeline(char *line)
 {
 	char	**parts;
@@ -55,7 +39,6 @@ char	**parse_pipeline(char *line)
 	parts = ft_split(line, '\2');
 	if (!parts)
 		return (NULL);
-	/* aqui estava o problema: limpar também \n e \r */
 	if (!trim_parts(parts, " \t\n\r"))
 	{
 		free_split(parts);
@@ -64,9 +47,6 @@ char	**parse_pipeline(char *line)
 	return (parts);
 }
 
-/*
-** usado no input.c para rejeitar "||" e pipe no início/fim
-*/
 int	pipe_syntax_error(const char *s)
 {
 	size_t	i;

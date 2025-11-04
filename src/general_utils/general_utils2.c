@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:14:56 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/10/27 17:31:01 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/04 09:04:46 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,17 @@ void    ft_perror(char *s)
 {
     perror(s);
     return;
+}
+void check_file_is_dir(const char *path)
+{
+    struct stat status;
+
+    if (stat(path, &status) == 0 && S_ISDIR(status.st_mode))
+    {
+        write(2, "minishell: ", 11);
+        write(2, path, ft_strlen(path));
+        write(2, ": is a directory\n", 17);
+        errno = EISDIR;
+        return;
+    }
 }

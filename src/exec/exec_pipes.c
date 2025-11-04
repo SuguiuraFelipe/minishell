@@ -6,17 +6,13 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 18:29:42 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/03 20:04:19 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/04 09:35:20 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 extern int	g_status;
-
-/* ========================================================= */
-/* 1. detectar se é pipeline                                 */
-/* ========================================================= */
 
 int	ms_is_pipeline(char **cmdv)
 {
@@ -27,27 +23,19 @@ int	ms_is_pipeline(char **cmdv)
 	return (1);
 }
 
-/* ========================================================= */
-/* 2. caminho sem pipe (reaproveita tudo o que já funciona)  */
-/* ========================================================= */
-
-void	ms_exec_single(char *cmdstr, char **envp, t_builtin_map *builtins)
+void    ms_exec_single(char *cmdstr, char **envp, t_builtin_map *builtins, int original_stdin_fd)
 {
-	char	**args;
+    char    **args;
 
-	if (!cmdstr || !*cmdstr)
-		return ;
-	/* split simples por enquanto */
-	args = ft_split(cmdstr, ' ');
-	if (!args)
-		return ;
-	exec_commands(args, envp, builtins);
-	free_split(args);
+    if (!cmdstr || !*cmdstr)
+        return ;
+    args = ft_split(cmdstr, ' ');
+    if (!args)
+        return ;
+    exec_commands(args, envp, builtins, original_stdin_fd);
+    free_split(args);
 }
 
-/* ========================================================= */
-/* 3. helpers para N comandos                                */
-/* ========================================================= */
 
 static int	ms_count_cmds(char **cmdv)
 {
@@ -112,21 +100,14 @@ static void	ms_free_all_pipes(int **pipes, int ncmds)
 	free(pipes);
 }
 
-/* ========================================================= */
-/* 4. fds do filho                                           */
-/* ========================================================= */
-
 static void	ms_setup_child_fds(int i, int ncmds, int **pipes)
 {
 	int	j;
 
-	/* se não for o primeiro, lê do pipe anterior */
 	if (i > 0)
 		dup2(pipes[i - 1][0], STDIN_FILENO);
-	/* se não for o último, escreve no próximo pipe */
 	if (i < ncmds - 1)
 		dup2(pipes[i][1], STDOUT_FILENO);
-	/* fecha tudo o que sobrou no filho */
 	j = 0;
 	while (j < ncmds - 1)
 	{
@@ -136,82 +117,75 @@ static void	ms_setup_child_fds(int i, int ncmds, int **pipes)
 	}
 }
 
-/*
-** aqui é o lugar certo para aplicar redireções DENTRO do pipeline
-** porque já estamos no filho e já trocámos stdin/stdout
-*/
-static void	ms_child_exec(char *cmdstr, char **envp, t_builtin_map *builtins)
+static void ms_child_exec(char *cmdstr, char **envp, t_builtin_map *builtins, int original_stdin_fd)
 {
-	char	**args;
+    char    **args;
 
-	args = ft_split(cmdstr, ' ');
-	if (!args)
-		exit(1);
-	/* se o comando for "cmd > file" dentro do pipeline, trata aqui */
-	redirections(args);
-	exec_commands(args, envp, builtins);
-	free_split(args);
-	exit(g_status);
+    args = ft_split(cmdstr, ' ');
+    if (!args)
+        exit(1);
+    redirections(args);
+    exec_commands(args, envp, builtins, original_stdin_fd);
+    free_split(args);
+    exit(g_status);
 }
 
-/* ========================================================= */
-/* 5. executor de N comandos                                 */
-/* ========================================================= */
 
-void	ms_exec_pipeline(char **cmdv, char **envp, t_builtin_map *builtins)
+void    ms_exec_pipeline(char **cmdv, char **envp, t_builtin_map *builtins, int original_stdin_fd)
 {
-	int		ncmds;
-	int		**pipes;
-	pid_t	*pids;
-	int		i;
-	int		status;
+    int     ncmds;
+    int     **pipes;
+    pid_t   *pids;
+    int     i;
+    int     status;
 
-	ncmds = ms_count_cmds(cmdv);
-	if (ncmds < 2)
-	{
-		ms_exec_single(cmdv[0], envp, builtins);
-		return ;
-	}
-	pipes = ms_create_pipes(ncmds);
-	if (!pipes)
-		return ;
-	pids = (pid_t *)malloc(sizeof(pid_t) * ncmds);
-	if (!pids)
-		return ;
-	i = 0;
-	while (i < ncmds)
-	{
-		pids[i] = fork();
-		if (pids[i] == 0)
-		{
-			ms_setup_child_fds(i, ncmds, pipes);
-			ms_child_exec(cmdv[i], envp, builtins);
-		}
-		i++;
-	}
-	ms_close_all_pipes(pipes, ncmds);
-	i = 0;
-	while (i < ncmds)
-	{
-		waitpid(pids[i], &status, 0);
-		if (WIFEXITED(status))
-			g_status = WEXITSTATUS(status);
-		i++;
-	}
-	ms_free_all_pipes(pipes, ncmds);
-	free(pids);
+    ncmds = ms_count_cmds(cmdv);
+    if (ncmds < 2)
+    {
+        ms_exec_single(cmdv[0], envp, builtins, original_stdin_fd);
+        return ;
+    }
+    pipes = ms_create_pipes(ncmds);
+    if (!pipes)
+        return ;
+    pids = (pid_t *)malloc(sizeof(pid_t) * ncmds);
+    if (!pids)
+        return ;
+    i = 0;
+    while (i < ncmds)
+    {
+        pids[i] = fork();
+        if (pids[i] == 0)
+        {
+            ms_setup_child_fds(i, ncmds, pipes);
+            ms_child_exec(cmdv[i], envp, builtins, original_stdin_fd);
+        }
+        i++;
+    }
+    ms_close_all_pipes(pipes, ncmds);
+    i = 0;
+    while (i < ncmds)
+    {
+        waitpid(pids[i], &status, 0);
+        
+        if (i == ncmds - 1)
+        {
+            if (WIFEXITED(status))
+                g_status = WEXITSTATUS(status);
+            else if (WIFSIGNALED(status))
+                g_status = 128 + WTERMSIG(status);
+        }
+        i++;
+    }
+    ms_free_all_pipes(pipes, ncmds);
 }
 
-/* ========================================================= */
-/* 6. despachante global                                     */
-/* ========================================================= */
-
-void	ms_dispatch(char **cmdv, char **envp, t_builtin_map *builtins)
+void    ms_dispatch(char **cmdv, char **envp, t_builtin_map *builtins, int original_stdin_fd)
 {
-	if (!cmdv || !cmdv[0])
-		return ;
-	if (ms_is_pipeline(cmdv))
-		ms_exec_pipeline(cmdv, envp, builtins);
-	else
-		ms_exec_single(cmdv[0], envp, builtins);
+    if (!cmdv || !cmdv[0])
+        return ;
+    if (ms_is_pipeline(cmdv))
+        ms_exec_pipeline(cmdv, envp, builtins, original_stdin_fd); 
+    else
+        ms_exec_single(cmdv[0], envp, builtins, original_stdin_fd); 
 }

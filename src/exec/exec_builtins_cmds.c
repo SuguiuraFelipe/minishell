@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:06:13 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/03 20:57:54 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/04 10:04:08 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_builtin_map(t_builtin_map *builtins)
 	builtins[7].name = NULL;
 	builtins[7].func = NULL;
 }
-void exec_commands(char **args, char **envp, t_builtin_map *builtins)
+void exec_commands(char **args, char **envp, t_builtin_map *builtins, int original_stdin_fd)
 {
     int i;
     int saved_stdin;
@@ -41,7 +41,6 @@ void exec_commands(char **args, char **envp, t_builtin_map *builtins)
     expand_amb_variables(envp, args);
     saved_stdin = dup(STDIN_FILENO);
     saved_stdout = dup(STDOUT_FILENO);
-
     while (builtins[i].name)
     {
         if (!ft_strcmp(args[0], builtins[i].name))
@@ -56,7 +55,6 @@ void exec_commands(char **args, char **envp, t_builtin_map *builtins)
         }
         i++;
     }
-
-    exec_normal_commands(args, envp);
+    exec_normal_commands(args, envp, original_stdin_fd);
 }
 

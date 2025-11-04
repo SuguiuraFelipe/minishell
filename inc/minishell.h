@@ -6,7 +6,7 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/03 20:20:16 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/04 10:04:26 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				**ft_split(char const *s, char c);
 int					ft_strcmp(const char *s1, const char *s2);
+char				*ft_itoa(int n);
 
 /* general_utils */
 void				do_not_return(int ac, char **av);
@@ -71,11 +72,13 @@ char				*find_path_in_envp(char **envp, char *var_name);
 char				*get_path(char *command, char **envp);
 void				check_valid_fd(int fd);
 void				ft_perror(char *s);
+void				check_file_is_dir(const char *path);
 
 /* redirection utils */
 int		check_fail_red_simbol(char **args, int i, char *simbol);
 char    *set_here_doc_line(int *arr, char **args, int i);
 void	dup_and_close_here_doc(int *arr);
+int free_here_doc(char **args, int i, char *simbol);
 
 /* parsing */
 void				exit_minishell(void);
@@ -90,10 +93,10 @@ int					pipe_syntax_error(const char *s);
 void				expand_amb_variables(char **envp, char **result);
 char				*remove_quotes(char *s);
 int				redirections(char **args);
-int ms_is_pipeline(char **cmdv);
-void    ms_dispatch(char **cmdv, char **envp, t_builtin_map *builtins);
-void    ms_exec_single(char *cmdstr, char **envp, t_builtin_map *builtins);
-void    ms_exec_pipeline(char **cmdv, char **envp, t_builtin_map *builtins);
+int	ms_is_pipeline(char **cmdv);
+void    ms_dispatch(char **cmdv, char **envp, t_builtin_map *builtins, int original_stdin_fd);
+void    ms_exec_single(char *cmdstr, char **envp, t_builtin_map *builtins, int original_stdin_fd);
+void    ms_exec_pipeline(char **cmdv, char **envp, t_builtin_map *builtins, int original_stdin_fd);
 
 
 /* builtin_utils */
@@ -101,9 +104,8 @@ int					is_builtin(char *s);
 char				**dup_envp(char **envp);
 
 /* exec */
-void				exec_normal_commands(char **args, char **envp);
-void				exec_commands(char **args, char **envp,
-						t_builtin_map *builtins);
+void				exec_normal_commands(char **args, char **envp, int original_stdin_fd);
+void				exec_commands(char **args, char **envp, t_builtin_map *builtins, int original_stdin_fd);
 void				exec_cd(char **args, char **envp);
 void				exec_pwd(char **args, char **envp);
 void				exec_echo(char **args, char **dup_envp);

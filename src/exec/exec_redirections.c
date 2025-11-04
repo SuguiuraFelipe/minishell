@@ -6,25 +6,11 @@
 /*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/03 20:26:04 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/04 09:42:27 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static void check_file_is_dir(const char *path)
-{
-    struct stat status;
-
-    if (stat(path, &status) == 0 && S_ISDIR(status.st_mode))
-    {
-        write(2, "minishell: ", 11);
-        write(2, path, ft_strlen(path));
-        write(2, ": is a directory\n", 17);
-        errno = EISDIR;
-        return;
-    }
-}
 
 static int red_in(char **args)
 {
@@ -88,11 +74,9 @@ static int red_append(char **args)
     args[i + 1] = NULL;
     return 0;
 }
-
 static void red_here_doc(char **args)
 {
     int i;
-    int j;
     int pipefd[2];
 
     i = -1;
@@ -100,17 +84,20 @@ static void red_here_doc(char **args)
     {
         if (ft_strcmp(args[i], "<<") == 0)
         {
-            if (check_fail_red_simbol(args, i, "<<"))
+            if (free_here_doc(args, i, "<<"))
                 return;
             if (pipe(pipefd) < 0)
                 ft_perror("pipe");
             set_here_doc_line(pipefd, args, i);
             dup_and_close_here_doc(pipefd);
-            j = i - 1;
-            while (args[(++j) + 2])
-                args[j] = args[j + 2];
-            args[j] = NULL;
-            args[j + 1] = NULL;
+            free(args[i]);
+            free(args[i + 1]);
+            while (args[i + 2])
+            {
+                args[i] = args[i + 2];
+                i++;
+            }
+            args[i] = NULL;
             break;
         }
     }
@@ -118,15 +105,11 @@ static void red_here_doc(char **args)
 
 int redirections(char **args)
 {
-    int i;
-    int error;
+    int i = 0;
+    int error = 0;
 
-    i = 0;
-    error = 0;
     while (args[i])
     {
-        if (!args[i + 1])
-            break;
         if (ft_strcmp(args[i], ">") == 0 && red_out(&args[i++]) == -1)
             error = 1;
         else if (ft_strcmp(args[i], ">>") == 0 && red_append(&args[i++]) == -1)
@@ -139,6 +122,9 @@ int redirections(char **args)
     }
     if (error)
         return -1;
+    if (!args[0])
+        return 1;
     return 0;
 }
+
 
