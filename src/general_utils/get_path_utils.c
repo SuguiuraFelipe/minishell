@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:29:10 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/27 07:49:54 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/04 18:51:21 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,12 @@ char	*get_path(char *command, char **envp)
 	char	*path_str;
 	char	*result;
 
+	if (ft_strchr(command, '/'))
+		return (ft_strdup(command));
 	path_str = find_path_in_envp(envp, "PATH");
 	if (!path_str)
 		return (NULL);
 	result = find_cmd_in_path(command, path_str);
 	return (result);
 }
+

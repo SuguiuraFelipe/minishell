@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils5.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 09:27:43 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/04 09:36:04 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/04 17:30:58 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,16 @@ char	*ft_itoa(int n)
 		number = (unsigned int)n;
 	s = ft_char(s, number, len);
 	return (s);
+}
+
+void    ft_putstr_fd(char *str, int fd)
+{
+    int i;
+    
+    i = 0;
+    while (str[i])
+    {
+        write(fd, &str[i], 1);
+        i++;
+    }
 }

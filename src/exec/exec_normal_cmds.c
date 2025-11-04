@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_normal_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 08:41:47 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/04 17:04:45 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/04 18:54:06 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,38 @@
 
 static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
 {
-    if (pid == 0)
-    {
-        execve(path, args, envp);
-        perror("execve");
-        exit(1); 
-    }
-    else if (pid > 0)
-    {
-        int status;
-        
-        waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-            g_status = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status))
-            g_status = 128 + WTERMSIG(status);
-    }
-    else
-    {
-        perror("fork");
-        g_status = 1; 
-    }
+	struct stat	st;
+
+	if (pid == 0)
+	{
+		if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(path, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+			exit(126);
+		}
+		execve(path, args, envp);
+		handle_exec_error(args[0]);
+		exit(1);
+	}
+	else if (pid > 0)
+	{
+		int status;
+		
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_status = 128 + WTERMSIG(status);
+	}
+	else
+	{
+		perror("fork");
+		g_status = 1; 
+	}
 }
+
 
 void    exec_normal_commands(char **args, char **envp, int original_stdin_fd)
 {

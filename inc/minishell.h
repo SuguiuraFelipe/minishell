@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/04 16:39:26 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/04 17:33:24 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				**ft_split(char const *s, char c);
 int					ft_strcmp(const char *s1, const char *s2);
+void				ft_putstr_fd(char *str, int fd);
 char				*ft_itoa(int n);
 
 /* general_utils */
@@ -73,6 +74,7 @@ char				*get_path(char *command, char **envp);
 void				check_valid_fd(int fd);
 void				ft_perror(char *s);
 void				check_file_is_dir(const char *path);
+void				handle_exec_error(char *cmd);
 
 /* redirection utils */
 int		check_fail_red_simbol(char **args, int i, char *simbol);
