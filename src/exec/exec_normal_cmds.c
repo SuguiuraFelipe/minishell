@@ -3,37 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   exec_normal_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 08:41:47 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/04 18:54:06 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:32:05 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../inc/minishell.h"
 
-static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
+static void	path_is_dir_error(char *path)
 {
-	struct stat	st;
+	struct stat st;
 
-	if (pid == 0)
-	{
-		if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(path, 2);
 			ft_putstr_fd(": is a directory\n", 2);
 			exit(126);
 		}
+}
+static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
+{
+	int status;
+	
+	if (pid == 0)
+	{
+		path_is_dir_error(path);
 		execve(path, args, envp);
 		handle_exec_error(args[0]);
 		exit(1);
 	}
 	else if (pid > 0)
 	{
-		int status;
-		
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			g_status = WEXITSTATUS(status);
@@ -46,7 +50,6 @@ static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
 		g_status = 1; 
 	}
 }
-
 
 void    exec_normal_commands(char **args, char **envp, int original_stdin_fd)
 {
