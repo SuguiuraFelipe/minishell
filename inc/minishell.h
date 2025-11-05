@@ -6,7 +6,7 @@
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/04 17:33:24 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:57:57 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,16 @@ char				**parse_pipeline(char *line);
 int					pipe_syntax_error(const char *s);
 void				expand_amb_variables(char **envp, char **result);
 char				*remove_quotes(char *s);
-int				redirections(char **args);
-int	ms_is_pipeline(char **cmdv);
-void    ms_dispatch(char **cmdv, char **envp, t_builtin_map *builtins, int original_stdin_fd);
-void    ms_exec_single(char *cmdstr, char **envp, t_builtin_map *builtins, int original_stdin_fd);
-void    ms_exec_pipeline(char **cmdv, char **envp, t_builtin_map *builtins, int original_stdin_fd);
-
+int					redirections(char **args);
+int					is_pipeline(char **args);
+void    			dispatch(char **args, char **envp, t_builtin_map *builtins, int original_stdin_fd);
+void    			exec_single(char *str, char **envp, t_builtin_map *builtins, int original_stdin_fd);
+void    			exec_pipeline(char **args, char **envp, t_builtin_map *builtins, int original_stdin_fd);
+void				free_all_pipes(int **pipes, int ncmds);
+int					count_cmds(char **args);
+int					**create_pipes(int ncmds);
+void				close_all_pipes(int **pipes, int ncmds);
+void				setup_child_fds(int i, int ncmds, int **pipes);
 
 /* builtin_utils */
 int					is_builtin(char *s);

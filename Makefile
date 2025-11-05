@@ -28,6 +28,8 @@ SRCS        := src/main.c \
 			   src/general_utils/general_utils2.c \
 			   src/general_utils/redirection_utils.c \
 			   src/general_utils/get_path_utils.c \
+			   src/general_utils/pipes_utils.c \
+			   src/general_utils/pipes_utils2.c \
 			   src/parsing/input.c \
 			   src/parsing/expand.c \
 			   src/parsing/quotes.c \

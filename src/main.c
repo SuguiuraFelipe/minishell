@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 20:33:48 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/04 16:39:31 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:48:41 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void minishell_loop(char **envp, t_builtin_map *builtins, int original_st
         free(line);
         if (!cmdv)
             continue;
-        ms_dispatch(cmdv, envp, builtins, original_stdin_fd); 
+        dispatch(cmdv, envp, builtins, original_stdin_fd); 
         free_split(cmdv);
     }
 }
