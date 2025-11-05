@@ -6,7 +6,7 @@
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:37:26 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/10/24 17:24:40 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:12:18 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ char	*read_line_or_exit(void)
 		return (NULL);
 	if (!quotes_balanced(line))
 	{
-		fprintf(stderr, "minishell: unclosed quotes\n");
+		write(2, "minishell: unclosed quotes\n", 28);
 		free(line);
 		return (NULL);
 	}
 	if (pipe_syntax_error(line))
 	{
-		fprintf(stderr, "minishell: syntax error near unexpected token `|'\n");
+		write(2, "minishell: syntax error near unexpected token `|'\n", 51);
 		free(line);
 		return (NULL);
 	}
