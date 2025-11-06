@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:14:56 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 16:18:31 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 19:57:07 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,29 @@ void	handle_exec_error(char *cmd)
 	else
 		perror("minishell");
 	exit(126);
+}
+int	check_identifier(char *name)
+{
+	int	i;
+
+	if (!name || (!ft_isalpha(name[0]) && name[0] != '_'))
+	{
+		write(2, "minishell: export: `", 21);
+		write(2, name, ft_strlen(name));
+		write(2, "': not a valid identifier\n", 27);
+		return (0);
+	}
+	i = 1;
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+		{
+			write(2, "minishell: export: `", 21);
+			write(2, name, ft_strlen(name));
+			write(2, "': not a valid identifier\n", 27);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }

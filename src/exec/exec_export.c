@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 15:03:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/06 18:54:35 by fsuguiur         ###   ########.fr       */
+/*   Created: 2025/11/06 19:47:30 by jde-carv          #+#    #+#             */
+/*   Updated: 2025/11/06 19:57:56 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../inc/minishell.h"
 
@@ -48,63 +49,44 @@ static char	*var_concatenation(char *s1, char *s2, char *s3)
 	return (result);
 }
 
-void	exec_export(char **args, char **dup_envp)
+static void	extract_cmd(char **args, t_export_class *ec)
 {
-	int		i;
-	int		j;
-	char	*eq;
-	char	*name;
-	char	*raw_value;
-
-	j = 0;
-	i = 1;
-	while (args[i])
+	while (args[ec->i + 1])
 	{
-		eq = ft_strchr(args[i], '=');
-		if (!eq)
+		ec->temp = ft_strjoin(ec->joined, " ");
+		free(ec->joined);
+		ec->joined = ft_strjoin(ec->temp, args[ec->i + 1]);
+		free(ec->temp);
+		if (ft_strchr(args[ec->i + 1], '"') || ft_strchr(args[ec->i + 1], '\''))
 			break;
-		*eq = '\0';
-		name = args[i];
-		if (!isalpha(name[0]) && name[0] != '_')
-		{
-			write(2, "minishell: export: `", 21);
-			write(2, name, ft_strlen(name));
-			write(2, "': not a valid identifier\n", 27);
-			i++;
-			continue;
-		}
-		raw_value = eq + 1;
-
-		// 🔹 Junta partes até achar fechamento das aspas
-		char *joined = ft_strdup(raw_value);
-		while (args[i + 1])
-		{
-			char *temp = ft_strjoin(joined, " ");
-			free(joined);
-			joined = ft_strjoin(temp, args[i + 1]);
-			free(temp);
-			if (ft_strchr(args[i + 1], '"') || ft_strchr(args[i + 1], '\''))
-				break;
-			i++;
-		}
-
-		// 🔹 Remove aspas
-		char *clean_value = remove_quotes(joined);
-		free(joined);
-
-		// 🔹 Monta entrada final VAR=VALOR
-		char *final_entry = var_concatenation(name, "=", clean_value);
-		free(clean_value);
-
-		if (!var_already_exist(dup_envp, name, final_entry))
-		{
-			while (dup_envp[j])
-				j++;
-			dup_envp[j] = ft_strdup(final_entry);
-			dup_envp[j + 1] = NULL;
-		}
-		free(final_entry);
-		i++;
+		ec->i++;
 	}
 }
+void	exec_export(char **args, char **dup_envp)
+{
+	t_export_class ec;
 
+	ec.j = 0;
+	ec.i = 1;
+	while (args[ec.i])
+	{
+		ec.eq = ft_strchr(args[ec.i], '=');
+		if (!ec.eq)
+			break;
+		*ec.eq = '\0';
+		ec.name = args[ec.i];
+		if (!check_identifier(ec.name) && (++ec.i || 1))
+			continue;
+		ec.raw_value = ec.eq + 1;
+		ec.joined = ft_strdup(ec.raw_value);
+		extract_cmd(args, &ec);
+		ec.clean_value = remove_quotes(ec.joined);
+		free(ec.joined);
+		ec.final_entry = var_concatenation(ec.name, "=", ec.clean_value);
+		free(ec.clean_value);
+		if (!var_already_exist(dup_envp, ec.name, ec.final_entry))
+			override_amb_value(dup_envp, ec);
+		free(ec.final_entry);
+		ec.i++;
+	}
+}

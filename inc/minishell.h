@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
+/*   Updated: 2025/11/06 19:58:38 by jde-carv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-#include <ctype.h> 
+# include <ctype.h> 
 # include <errno.h>
 # include <fcntl.h>
 # include <signal.h>
@@ -36,6 +48,19 @@ typedef struct s_data_pipes
 	pid_t			*pids;
 }					t_data_pipes;
 
+typedef struct s_export_class
+{
+	int		i;
+	int		j;
+	char	*eq;
+	char	*name;
+	char	*raw_value;
+	char	*joined;
+	char	*temp;
+	char	*clean_value;
+	char	*final_entry;
+} t_export_class;
+
 /*initalize map*/
 void				init_builtin_map(t_builtin_map *builtins);
 
@@ -59,6 +84,8 @@ int					ft_strcmp(const char *s1, const char *s2);
 void				ft_putstr_fd(char *str, int fd);
 char				*ft_itoa(int n);
 char				*ft_substr(const char *s, unsigned int start, size_t len);
+int					ft_isalnum(int c);
+int					ft_isalpha(int c);
 
 /* general_utils */
 void				do_not_return(int ac, char **av);
@@ -73,6 +100,8 @@ void				check_valid_fd(int fd);
 void				ft_perror(char *s);
 void				check_file_is_dir(const char *path);
 void				handle_exec_error(char *cmd);
+int					check_identifier(char *name);
+void				override_amb_value(char **dup_envp, t_export_class ec);
 
 /* redirection utils */
 int					check_fail_red_simbol(char **args, int i, char *simbol);
