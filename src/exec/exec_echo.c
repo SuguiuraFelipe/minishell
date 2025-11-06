@@ -30,4 +30,3 @@ void	exec_echo(char **args, char **envp)
 	}
 	ft_putstr_fd("\n", 1);
 }
-

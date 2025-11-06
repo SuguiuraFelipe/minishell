@@ -6,21 +6,21 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 19:58:38 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:09:14 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <ctype.h> 
+# include <ctype.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -48,18 +48,30 @@ typedef struct s_data_pipes
 	pid_t			*pids;
 }					t_data_pipes;
 
-typedef struct s_export_class
+typedef struct s_expand_class
 {
-	int		i;
-	int		j;
-	char	*eq;
-	char	*name;
-	char	*raw_value;
-	char	*joined;
-	char	*temp;
-	char	*clean_value;
-	char	*final_entry;
-} t_export_class;
+	int				i;
+	int				j;
+	char			*eq;
+	char			*name;
+	char			*raw_value;
+	char			*joined;
+	char			*temp;
+	char			*clean_value;
+	char			*final_entry;
+}					t_export_class;
+
+typedef struct t_expand_class
+{
+	int				i;
+	int				start;
+	char			*var_name;
+	char			*value;
+	char			*prefix;
+	char			*suffix;
+	char			*expanded;
+
+}					t_expand_class;
 
 /*initalize map*/
 void				init_builtin_map(t_builtin_map *builtins);
@@ -102,6 +114,7 @@ void				check_file_is_dir(const char *path);
 void				handle_exec_error(char *cmd);
 int					check_identifier(char *name);
 void				override_amb_value(char **dup_envp, t_export_class ec);
+void				get_suffix_and_prefix(char *line, t_expand_class ec);
 
 /* redirection utils */
 int					check_fail_red_simbol(char **args, int i, char *simbol);

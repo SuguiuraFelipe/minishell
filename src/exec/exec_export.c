@@ -6,10 +6,9 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:47:30 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 19:57:56 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:00:13 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/minishell.h"
 
@@ -58,13 +57,14 @@ static void	extract_cmd(char **args, t_export_class *ec)
 		ec->joined = ft_strjoin(ec->temp, args[ec->i + 1]);
 		free(ec->temp);
 		if (ft_strchr(args[ec->i + 1], '"') || ft_strchr(args[ec->i + 1], '\''))
-			break;
+			break ;
 		ec->i++;
 	}
 }
+
 void	exec_export(char **args, char **dup_envp)
 {
-	t_export_class ec;
+	t_export_class	ec;
 
 	ec.j = 0;
 	ec.i = 1;
@@ -72,11 +72,11 @@ void	exec_export(char **args, char **dup_envp)
 	{
 		ec.eq = ft_strchr(args[ec.i], '=');
 		if (!ec.eq)
-			break;
+			break ;
 		*ec.eq = '\0';
 		ec.name = args[ec.i];
 		if (!check_identifier(ec.name) && (++ec.i || 1))
-			continue;
+			continue ;
 		ec.raw_value = ec.eq + 1;
 		ec.joined = ft_strdup(ec.raw_value);
 		extract_cmd(args, &ec);

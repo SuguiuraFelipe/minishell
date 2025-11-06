@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:50:49 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 18:51:02 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:11:59 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	expand_amb_variables(char **envp, char **result)
 		if (result[i][0] == '$' && result[i][1])
 		{
 			if (expand_exit_status(&result[i]))
-				continue;
+				continue ;
 			value = find_path_in_envp(envp, &result[i][1]);
 			check_value(result, value, i);
 		}
@@ -67,39 +67,26 @@ void	expand_amb_variables(char **envp, char **result)
 
 char	*expand_line_before_split(char *line, char **envp)
 {
-	int		i;
-	int		start;
-	char	*var_name;
-	char	*value;
-	char	*prefix;
-	char	*suffix;
-	char	*expanded;
+	t_expand_class	ec;
 
-	i = 0;
-	while (line[i])
+	ec.i = 0;
+	while (line[ec.i])
 	{
-		if (line[i] == '$' && line[i + 1]
-			&& (isalpha(line[i + 1]) || line[i + 1] == '_'))
+		if (line[ec.i] == '$' && line[ec.i + 1] && (ft_isalpha(line[ec.i + 1])
+				|| line[ec.i + 1] == '_'))
 		{
-			start = i + 1;
-			while (isalnum(line[start]) || line[start] == '_')
-				start++;
-			var_name = ft_substr(line, i + 1, start - i - 1);
-			value = find_path_in_envp(envp, var_name);
-			free(var_name);
-			if (!value)
-				value = "";
-			prefix = ft_substr(line, 0, i);
-			suffix = ft_strdup(&line[start]);
-			expanded = ft_strjoin(prefix, value);
-			free(prefix);
-			free(line);
-			line = ft_strjoin(expanded, suffix);
-			free(expanded);
-			free(suffix);
-			i = -1;
+			ec.start = ec.i + 1;
+			while (ft_isalnum(line[ec.start]) || line[ec.start] == '_')
+				ec.start++;
+			ec.var_name = ft_substr(line, ec.i + 1, ec.start - ec.i - 1);
+			ec.value = find_path_in_envp(envp, ec.var_name);
+			free(ec.var_name);
+			if (!ec.value)
+				ec.value = "";
+			get_suffix_and_prefix(line, ec);
+			ec.i = -1;
 		}
-		i++;
+		ec.i++;
 	}
 	return (line);
 }

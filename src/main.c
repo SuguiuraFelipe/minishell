@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-int	g_status = 0;
+int			g_status = 0;
 
 static void	minishell_loop(char **envp, t_builtin_map *builtins,
 		int original_stdin_fd)
@@ -30,7 +30,6 @@ static void	minishell_loop(char **envp, t_builtin_map *builtins,
 		temp_result[1] = NULL;
 		expand_amb_variables(envp, temp_result);
 		line = temp_result[0];
-
 		cmdv = parse_pipeline(line);
 		free(line);
 		if (!cmdv)
@@ -54,4 +53,3 @@ int	main(int argc, char **argv, char **envp)
 	minishell_loop(envp, builtins, original_stdin_fd);
 	return (0);
 }
-

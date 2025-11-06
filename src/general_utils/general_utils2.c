@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:14:56 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 19:57:07 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:00:38 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	handle_exec_error(char *cmd)
 		perror("minishell");
 	exit(126);
 }
+
 int	check_identifier(char *name)
 {
 	int	i;
