@@ -1,33 +1,21 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/16 16:12:58 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/05 16:57:57 by fsuguiur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>
 # include <fcntl.h>
-# include <stdio.h>
-# include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/wait.h>
-# include <errno.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <unistd.h>
 
-extern int	g_status;
+extern int			g_status;
 
 # define MAX_DIR_SIZE 4096
 
@@ -38,6 +26,14 @@ typedef struct s_builtin_map
 	char			*name;
 	t_builtin_func	func;
 }					t_builtin_map;
+
+typedef struct s_data_pipes
+{
+	int				**pipes;
+	int				original_stdin_fd;
+	int				ncmds;
+	pid_t			*pids;
+}					t_data_pipes;
 
 /*initalize map*/
 void				init_builtin_map(t_builtin_map *builtins);
@@ -77,10 +73,10 @@ void				check_file_is_dir(const char *path);
 void				handle_exec_error(char *cmd);
 
 /* redirection utils */
-int		check_fail_red_simbol(char **args, int i, char *simbol);
-char    *set_here_doc_line(int *arr, char **args, int i);
-void	dup_and_close_here_doc(int *arr);
-int free_here_doc(char **args, int i, char *simbol);
+int					check_fail_red_simbol(char **args, int i, char *simbol);
+char				*set_here_doc_line(int *arr, char **args, int i);
+void				dup_and_close_here_doc(int *arr);
+int					free_here_doc(char **args, int i, char *simbol);
 
 /* parsing */
 void				exit_minishell(void);
@@ -96,9 +92,12 @@ void				expand_amb_variables(char **envp, char **result);
 char				*remove_quotes(char *s);
 int					redirections(char **args);
 int					is_pipeline(char **args);
-void    			dispatch(char **args, char **envp, t_builtin_map *builtins, int original_stdin_fd);
-void    			exec_single(char *str, char **envp, t_builtin_map *builtins, int original_stdin_fd);
-void    			exec_pipeline(char **args, char **envp, t_builtin_map *builtins, int original_stdin_fd);
+void				dispatch(char **args, char **envp, t_builtin_map *builtins,
+						int original_stdin_fd);
+void				exec_single(char *str, char **envp, t_builtin_map *builtins,
+						int original_stdin_fd);
+void				exec_pipeline(char **args, char **envp,
+						t_builtin_map *builtins, int original_stdin_fd);
 void				free_all_pipes(int **pipes, int ncmds);
 int					count_cmds(char **args);
 int					**create_pipes(int ncmds);
@@ -110,8 +109,10 @@ int					is_builtin(char *s);
 char				**dup_envp(char **envp);
 
 /* exec */
-void				exec_normal_commands(char **args, char **envp, int original_stdin_fd);
-void				exec_commands(char **args, char **envp, t_builtin_map *builtins, int original_stdin_fd);
+void				exec_normal_commands(char **args, char **envp,
+						int original_stdin_fd);
+void				exec_commands(char **args, char **envp,
+						t_builtin_map *builtins, int original_stdin_fd);
 void				exec_cd(char **args, char **envp);
 void				exec_pwd(char **args, char **envp);
 void				exec_echo(char **args, char **dup_envp);

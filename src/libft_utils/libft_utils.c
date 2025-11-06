@@ -59,7 +59,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 char	*ft_strchr(const char *str, int c)
 {
-	size_t		i;
+	size_t	i;
 
 	i = 0;
 	while (str[i] != '\0')

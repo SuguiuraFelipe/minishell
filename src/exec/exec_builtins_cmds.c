@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:06:13 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/04 17:06:00 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:02:34 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,30 +31,31 @@ void	init_builtin_map(t_builtin_map *builtins)
 	builtins[7].name = NULL;
 	builtins[7].func = NULL;
 }
-void exec_commands(char **args, char **envp, t_builtin_map *builtins, int original_stdin_fd)
+
+void	exec_commands(char **args, char **envp, t_builtin_map *builtins,
+		int original_stdin_fd)
 {
-    int i;
-    int saved_stdin;
-    int saved_stdout;
+	int	i;
+	int	saved_stdin;
+	int	saved_stdout;
 
-    i = 0;
-    expand_amb_variables(envp, args);
-    saved_stdin = dup(STDIN_FILENO);
-    saved_stdout = dup(STDOUT_FILENO);
-    while (builtins[i].name)
-    {
-        if (!ft_strcmp(args[0], builtins[i].name))
-        {
-            if (!redirections(args))
-                builtins[i].func(args, envp);
-            dup2(saved_stdin, STDIN_FILENO);
-            dup2(saved_stdout, STDOUT_FILENO);
-            close(saved_stdin);
-            close(saved_stdout);
-            return;
-        }
-        i++;
-    }
-    exec_normal_commands(args, envp, original_stdin_fd);
+	i = 0;
+	expand_amb_variables(envp, args);
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+	while (builtins[i].name)
+	{
+		if (!ft_strcmp(args[0], builtins[i].name))
+		{
+			if (!redirections(args))
+				builtins[i].func(args, envp);
+			dup2(saved_stdin, STDIN_FILENO);
+			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdin);
+			close(saved_stdout);
+			return ;
+		}
+		i++;
+	}
+	exec_normal_commands(args, envp, original_stdin_fd);
 }
-

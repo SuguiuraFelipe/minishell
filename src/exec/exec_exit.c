@@ -12,11 +12,11 @@
 
 #include "../../inc/minishell.h"
 
-void exec_exit(char **args, char **envp)
+void	exec_exit(char **args, char **envp)
 {
-    (void)args;
-    free_split(envp);
-    if (isatty(STDIN_FILENO))
-        write(1, "exit\n", 5);
-    exit(g_status);
+	(void)args;
+	free_split(envp);
+	if (isatty(STDIN_FILENO))
+		write(1, "exit\n", 5);
+	exit(g_status);
 }

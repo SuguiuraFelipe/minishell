@@ -3,43 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 18:29:42 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/05 16:57:12 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:17:07 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void child_exec(char *str, char **envp, t_builtin_map *builtins, 
-    int original_stdin_fd)
+static void	child_exec(char *str, char **envp, t_builtin_map *builtins,
+		int original_stdin_fd)
 {
-    char    **args;
+	char	**args;
 
-    args = ft_split(str, ' ');
-    if (!args)
-        exit(1);
-    redirections(args);
-    exec_commands(args, envp, builtins, original_stdin_fd);
-    free_split(args);
-    exit(g_status);
+	args = ft_split(str, ' ');
+	if (!args)
+		exit(1);
+	redirections(args);
+	exec_commands(args, envp, builtins, original_stdin_fd);
+	free_split(args);
+	exit(g_status);
 }
 
-
 static void	create_children(char **args, char **envp, t_builtin_map *builtins,
-	int **pipes, int original_stdin_fd, pid_t *pids, int ncmds)
+		t_data_pipes data_pipes)
 {
 	int	i;
 
 	i = -1;
-	while (++i < ncmds)
+	while (++i < data_pipes.ncmds)
 	{
-		pids[i] = fork();
-		if (pids[i] == 0)
+		data_pipes.pids[i] = fork();
+		if (data_pipes.pids[i] == 0)
 		{
-			setup_child_fds(i, ncmds, pipes);
-			child_exec(args[i], envp, builtins, original_stdin_fd);
+			setup_child_fds(i, data_pipes.ncmds, data_pipes.pipes);
+			child_exec(args[i], envp, builtins, data_pipes.original_stdin_fd);
 		}
 	}
 }
@@ -66,32 +65,30 @@ static void	wait_and_cleanup(pid_t *pids, int ncmds, int **pipes)
 }
 
 void	exec_pipeline(char **args, char **envp, t_builtin_map *builtins,
-	int original_stdin_fd)
+		int original_stdin_fd)
 {
-	int		ncmds;
-	int		**pipes;
-	pid_t	*pids;
+	t_data_pipes	data_pipes;
 
-	ncmds = count_cmds(args);
-	if (ncmds < 2)
+	data_pipes.ncmds = count_cmds(args);
+	if (data_pipes.ncmds < 2)
 		return (exec_single(args[0], envp, builtins, original_stdin_fd));
-	pipes = create_pipes(ncmds);
-	if (!pipes)
+	data_pipes.pipes = create_pipes(data_pipes.ncmds);
+	if (!data_pipes.pipes)
 		return ;
-	pids = malloc(sizeof(pid_t) * ncmds);
-	if (!pids)
+	data_pipes.pids = malloc(sizeof(pid_t) * data_pipes.ncmds);
+	if (!data_pipes.pids)
 		return ;
-	create_children(args, envp, builtins, pipes, original_stdin_fd, pids, ncmds);
-	wait_and_cleanup(pids, ncmds, pipes);
+	create_children(args, envp, builtins, data_pipes);
+	wait_and_cleanup(data_pipes.pids, data_pipes.ncmds, data_pipes.pipes);
 }
 
-void    dispatch(char **args, char **envp, t_builtin_map *builtins, 
-    int original_stdin_fd)
+void	dispatch(char **args, char **envp, t_builtin_map *builtins,
+		int original_stdin_fd)
 {
-    if (!args || !args[0])
-        return ;
-    if (is_pipeline(args))
-        exec_pipeline(args, envp, builtins, original_stdin_fd); 
-    else
-        exec_single(args[0], envp, builtins, original_stdin_fd); 
+	if (!args || !args[0])
+		return ;
+	if (is_pipeline(args))
+		exec_pipeline(args, envp, builtins, original_stdin_fd);
+	else
+		exec_single(args[0], envp, builtins, original_stdin_fd);
 }

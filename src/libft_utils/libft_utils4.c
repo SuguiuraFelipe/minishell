@@ -52,7 +52,7 @@ static int	add_word(char const *str, char **word, int i, char c)
 {
 	int	k;
 
-	*word = (char *) malloc(ft_strlen_sep(str, c, i));
+	*word = (char *)malloc(ft_strlen_sep(str, c, i));
 	if (!*word)
 		return (i);
 	k = 0;
@@ -78,7 +78,7 @@ char	**ft_split(char const *s, char c)
 	int		j;
 	char	**str_arr;
 
-	str_arr = (char **) malloc (word_count(s, c) * (sizeof(char *)));
+	str_arr = (char **)malloc(word_count(s, c) * (sizeof(char *)));
 	if (!str_arr)
 		return (str_arr);
 	i = 0;

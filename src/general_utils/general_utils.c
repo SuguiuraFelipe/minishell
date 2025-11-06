@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:46:52 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/04 09:34:51 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/06 16:19:55 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-extern int g_status;
+extern int	g_status;
 
 char	*cat_path_and_cmd(char *s1, char *s2, char *s3)
 {
@@ -53,9 +53,9 @@ void	free_split(char **str_arr)
 {
 	int	i;
 
+	i = 0;
 	if (!str_arr)
 		return ;
-	i = 0;
 	while (str_arr[i])
 	{
 		free(str_arr[i]);
@@ -69,13 +69,11 @@ void	free_split_vector_only(char **str_arr)
 	free(str_arr);
 }
 
-void    ft_cmd_not_found(char *cmd)
+void	ft_cmd_not_found(char *cmd)
 {
-    write(2, "minishell: ", 11);
-    write(2, cmd, ft_strlen(cmd));
-    write(2, ": command not found\n", 20);
-    g_status = 127;
+	write(2, "minishell: ", 11);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, ": command not found\n", 20);
+	g_status = 127;
 	return ;
 }
-
-

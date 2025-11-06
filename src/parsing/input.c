@@ -43,18 +43,21 @@ int	has_non_blank_and_free(char **line_ptr)
 
 int	quotes_balanced(const char *s)
 {
-	int in_single = 0;
-	int in_double = 0;
-	int i = 0;
+	int	in_single;
+	int	in_double;
+	int	i;
 
+	in_single = 0;
+	in_double = 0;
+	i = 0;
 	if (!s)
-        return 1;
+		return (1);
 	while (s[i])
 	{
-		if (s[i] == '\'' && !in_double) 
-            in_single = !in_single;
-		else if (s[i] == '"' && !in_single) 
-            in_double = !in_double;
+		if (s[i] == '\'' && !in_double)
+			in_single = !in_single;
+		else if (s[i] == '"' && !in_single)
+			in_double = !in_double;
 		i++;
 	}
 	return (!in_single && !in_double);

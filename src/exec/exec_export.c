@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:03:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/04 17:00:21 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:03:01 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,16 @@ static char	*var_concatenation(char *s1, char *s2, char *s3)
 	free(temp);
 	return (result);
 }
-static int    dont_have_value(char *var_value, int i)
+
+static int	dont_have_value(char *var_value, int i)
 {
 	(void)i;
-    if(!var_value)
-    {
-        i++;
-        return (1);
-    }
-    return (0);
+	if (!var_value)
+	{
+		i++;
+		return (1);
+	}
+	return (0);
 }
 
 void	exec_export(char **args, char **dup_envp)

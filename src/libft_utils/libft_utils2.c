@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:33:54 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/21 11:37:39 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/06 16:20:54 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		*iter++ = *(unsigned char *)src++;
 	return (dest);
 }
+
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
@@ -49,6 +50,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
@@ -64,6 +66,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(str, s2, full_size + 1);
 	return (str);
 }
+
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	dlen;

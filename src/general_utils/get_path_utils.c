@@ -3,30 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:29:10 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/04 18:51:21 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:20:22 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char *find_path_in_envp(char **envp, char *var_name)
+char	*find_path_in_envp(char **envp, char *var_name)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	i = 0;
 	len = ft_strlen(var_name);
-
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var_name, len) == 0 && envp[i][len] == '=')
-			return envp[i] + len + 1;
+			return (envp[i] + len + 1);
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 static char	*find_cmd_in_path(char *command, char *path_str)
@@ -55,6 +54,7 @@ static char	*find_cmd_in_path(char *command, char *path_str)
 	free_split(path_dirs);
 	return (NULL);
 }
+
 char	*get_path(char *command, char **envp)
 {
 	char	*path_str;
@@ -68,4 +68,3 @@ char	*get_path(char *command, char **envp)
 	result = find_cmd_in_path(command, path_str);
 	return (result);
 }
-

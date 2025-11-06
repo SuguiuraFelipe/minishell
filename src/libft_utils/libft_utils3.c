@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:35:49 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/10/22 13:21:31 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/06 16:21:11 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	ft_strlcpy(str, &s1[i], j - i + 2);
 	return (str);
 }
+
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
@@ -63,30 +64,36 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-char *ft_strcpy(char *dest, const char *src)
-{
-    int i = 0;
-    while (src[i])
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return dest;
-}
-char *ft_strcat(char *dest, const char *src)
-{
-    int i = 0;
-    int j = 0;
 
-    while (dest[i])
-        i++;
-    while (src[j])
-    {
-        dest[i] = src[j];
-        i++;
-        j++;
-    }
-    dest[i] = '\0';
-    return dest;
+char	*ft_strcpy(char *dest, const char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strcat(char *dest, const char *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (dest[i])
+		i++;
+	while (src[j])
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

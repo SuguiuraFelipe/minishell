@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:38:11 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/04 17:05:13 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:23:05 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	change_pipe(char *s)
 		i++;
 	}
 }
+
 char	**parse_pipeline(char *line)
 {
 	char	**parts;
@@ -52,14 +53,13 @@ int	pipe_syntax_error(const char *s)
 	size_t	i;
 	int		q;
 	int		need;
+	char	c;
 
 	i = 0;
 	q = 0;
 	need = 1;
 	while (s && s[i])
 	{
-		char	c;
-
 		c = s[i++];
 		q = update_qmode(q, c);
 		if (q == 0 && (c == ' ' || c == '\t'))

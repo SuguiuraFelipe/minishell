@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   exec_normal_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 08:41:47 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/05 19:01:43 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/06 16:03:06 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/minishell.h"
 
 static void	path_is_dir_error(char *path)
 {
-	struct stat st;
+	struct stat	st;
 
 	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(path, 2);
-			ft_putstr_fd(": is a directory\n", 2);
-			exit(126);
-		}
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		exit(126);
+	}
 }
+
 static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
 {
-	int status;
-	
+	int	status;
+
 	if (pid == 0)
 	{
 		path_is_dir_error(path);
@@ -47,33 +47,33 @@ static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
 	else
 	{
 		perror("fork");
-		g_status = 1; 
+		g_status = 1;
 	}
 }
 
-void    exec_normal_commands(char **args, char **envp, int original_stdin_fd)
+void	exec_normal_commands(char **args, char **envp, int original_stdin_fd)
 {
-    int     pid;
-    char    *path;
-    int     red_res;
+	int		pid;
+	char	*path;
+	int		red_res;
 
-    if (!args || !args[0])
-        return ;
-    red_res = redirections(args);
-    if (red_res == -1 || !args[0])
-    {
-        dup2(original_stdin_fd, STDIN_FILENO); 
-        return ;
-    }
-    path = get_path(args[0], envp);
-    if (!path)
-    {
-        ft_cmd_not_found(args[0]);
-        dup2(original_stdin_fd, STDIN_FILENO);
-        return ;
-    }
-    pid = fork();
-    init_and_check_execve(pid, path, args, envp);
-    dup2(original_stdin_fd, STDIN_FILENO);
-    free(path);
+	if (!args || !args[0])
+		return ;
+	red_res = redirections(args);
+	if (red_res == -1 || !args[0])
+	{
+		dup2(original_stdin_fd, STDIN_FILENO);
+		return ;
+	}
+	path = get_path(args[0], envp);
+	if (!path)
+	{
+		ft_cmd_not_found(args[0]);
+		dup2(original_stdin_fd, STDIN_FILENO);
+		return ;
+	}
+	pid = fork();
+	init_and_check_execve(pid, path, args, envp);
+	dup2(original_stdin_fd, STDIN_FILENO);
+	free(path);
 }

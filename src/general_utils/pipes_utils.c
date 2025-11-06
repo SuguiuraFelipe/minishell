@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:23:45 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/05 16:33:13 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:19:16 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ int	is_pipeline(char **args)
 	return (1);
 }
 
-void    exec_single(char *str, char **envp, t_builtin_map *builtins, 
-    int original_stdin_fd)
+void	exec_single(char *str, char **envp, t_builtin_map *builtins,
+		int original_stdin_fd)
 {
-    char    **args;
+	char	**args;
 
-    if (!str || !*str)
-        return ;
-    args = ft_split(str, ' ');
-    if (!args)
-        return ;
-    exec_commands(args, envp, builtins, original_stdin_fd);
-    free_split(args);
+	if (!str || !*str)
+		return ;
+	args = ft_split(str, ' ');
+	if (!args)
+		return ;
+	exec_commands(args, envp, builtins, original_stdin_fd);
+	free_split(args);
 }
-
 
 int	count_cmds(char **args)
 {
@@ -50,8 +49,8 @@ int	count_cmds(char **args)
 
 int	**create_pipes(int ncmds)
 {
-	int		i;
-	int		**pipes;
+	int	i;
+	int	**pipes;
 
 	if (ncmds < 2)
 		return (NULL);
