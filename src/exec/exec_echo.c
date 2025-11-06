@@ -3,38 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:01:51 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/04 16:22:49 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:36:33 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	exec_echo(char **args, char **dup_envp)
+void	exec_echo(char **args, char **envp)
 {
-	int	i;
-	int	j;
-	int	remove_new_line;
+	int		i;
+	char	*clean;
 
-	j = 1;
+	(void)envp;
 	i = 1;
-	remove_new_line = 0;
-	(void)dup_envp;
-	while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
-	{
-		while (args[i][j++] == 'n')
-			remove_new_line = 1;
-		i++;
-	}
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		clean = remove_quotes(args[i]);
+		ft_putstr_fd(clean, 1);
 		if (args[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", 1);
+		free(clean);
 		i++;
 	}
-	if (!remove_new_line)
-		printf("\n");
+	ft_putstr_fd("\n", 1);
 }
+

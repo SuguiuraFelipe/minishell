@@ -2,11 +2,11 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include <ctype.h> 
-# include <errno.h>
-# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+#include <ctype.h> 
+# include <errno.h>
+# include <fcntl.h>
 # include <signal.h>
 # include <stddef.h>
 # include <stdlib.h>
@@ -58,6 +58,7 @@ char				**ft_split(char const *s, char c);
 int					ft_strcmp(const char *s1, const char *s2);
 void				ft_putstr_fd(char *str, int fd);
 char				*ft_itoa(int n);
+char				*ft_substr(const char *s, unsigned int start, size_t len);
 
 /* general_utils */
 void				do_not_return(int ac, char **av);

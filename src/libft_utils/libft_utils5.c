@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils5.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 09:27:43 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/06 16:21:31 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:47:08 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,27 @@ void	ft_putstr_fd(char *str, int fd)
 		write(fd, &str[i], 1);
 		i++;
 	}
+}
+
+char *ft_substr(const char *s, unsigned int start, size_t len)
+{
+    size_t i;
+    char *str;
+    
+    if (!s)
+        return (NULL);
+    if (start > ft_strlen(s))
+        return (ft_strdup(""));
+    if (len > ft_strlen(s + start))
+        len = ft_strlen(s + start);
+    str = ft_calloc(len + 1, sizeof(char));
+    if (!str)
+        return (NULL);
+    i = 0;
+    while (i < len)
+    {
+        str[i] = s[start + i];
+        i++;
+    }
+    return (str);
 }
