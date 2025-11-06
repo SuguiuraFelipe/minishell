@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/25 16:50:49 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 16:22:40 by jde-carv         ###   ########.fr       */
+/*   Created: 2025/11/07 12:22:18 by fsuguiur          #+#    #+#             */
+/*   Updated: 2025/11/06 17:45:02 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,11 @@ static int	expand_exit_status(char **simbol)
 
 static void	check_value(char **result, char *value, int i)
 {
+	free(result[i]);
 	if (value)
-	{
-		free(result[i]);
 		result[i] = ft_strdup(value);
-	}
 	else
-	{
-		free(result[i]);
 		result[i] = ft_strdup("");
-	}
 }
 
 int	is_number(char c)

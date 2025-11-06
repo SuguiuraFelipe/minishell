@@ -5,26 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 15:03:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/06 17:14:58 by fsuguiur         ###   ########.fr       */
+/*   Created: 2025/11/07 00:21:50 by jde-carv          #+#    #+#             */
+/*   Updated: 2025/11/06 17:42:35 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_export.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 15:03:11 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/06 19:18:42 by jde-carv         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+static char	*var_concatenation(char *s1, char *s2, char *s3)
+{
+	char	*temp;
+	char	*result;
 
-#include "../../inc/minishell.h"
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	temp = ft_strjoin(s1, s2);
+	if (!temp)
+		return (NULL);
+	result = ft_strjoin(temp, s3);
+	free(temp);
+	return (result);
+}
 
 static int	var_already_exist(char **dup_envp, char *var_name, char *new_var)
 {
@@ -47,67 +48,62 @@ static int	var_already_exist(char **dup_envp, char *var_name, char *new_var)
 	return (0);
 }
 
-static char	*var_concatenation(char *s1, char *s2, char *s3)
+/* Verifica se o nome da variável é válido (começa com letra ou '_') */
+static int	is_valid_var_name(char *name)
 {
-	char	*temp;
-	char	*result;
+	int	i;
 
-	if (!s1 || !s2 || !s3)
-		return (NULL);
-	temp = ft_strjoin(s1, s2);
-	if (!temp)
-		return (NULL);
-	result = ft_strjoin(temp, s3);
-	free(temp);
-	return (result);
-}
-
-static int	dont_have_value(char *var_value, int i)
-{
-	(void)i;
-	if (!var_value)
+	if (!isalpha(name[0]) && name[0] != '_')
+		return (0);
+	i = 1;
+	while (name[i])
 	{
+		if (!isalnum(name[i]) && name[i] != '_')
+			return (0);
 		i++;
-		return (1);
 	}
-	return (0);
+	return (1);
 }
 
-/*
-** Exporta variáveis de ambiente no formato NAME=VALUE
-** - Remove aspas do VALUE ("ls -l" → ls -l)
-** - Substitui variáveis já existentes
-*/
 void	exec_export(char **args, char **dup_envp)
 {
 	int		i;
 	int		j;
-	char	*var_name;
-	char	*var_value;
+	char	*eq;
+	char	*name;
+	char	*raw_value;
 	char	*clean_value;
-	char	*new_entry;
+	char	*final_entry;
 
 	j = 0;
 	i = 1;
 	while (args[i])
 	{
-		var_value = ft_strchr(args[i], '=');
-		if (dont_have_value(var_value, i))
+		eq = ft_strchr(args[i], '=');
+		if (!eq)
 			break ;
-		*var_value = '\0';
-		var_name = args[i];
-		var_value++;
-		clean_value = remove_quotes(var_value);
-		new_entry = var_concatenation(var_name, "=", clean_value);
-		if (!var_already_exist(dup_envp, var_name, new_entry))
+		*eq = '\0';
+		name = args[i];
+		if (!is_valid_var_name(name))
+		{
+			write(2, "minishell: export: `", 21);
+			write(2, name, ft_strlen(name));
+			write(2, "': not a valid identifier\n", 27);
+			i++;
+			continue ;
+		}
+		raw_value = eq + 1;
+		clean_value = remove_quotes(raw_value);
+		final_entry = var_concatenation(name, "=", clean_value);
+		if (!var_already_exist(dup_envp, name, final_entry))
 		{
 			while (dup_envp[j])
 				j++;
-			dup_envp[j] = ft_strdup(new_entry);
+			dup_envp[j] = ft_strdup(final_entry);
 			dup_envp[j + 1] = NULL;
 		}
 		free(clean_value);
-		free(new_entry);
+		free(final_entry);
 		i++;
 	}
 }
