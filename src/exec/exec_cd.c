@@ -3,21 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:58:51 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/06 16:02:47 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:06:15 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+static char	*first_nonempty_arg(char **args)
+{
+	int i;
+
+	if (!args)
+		return (NULL);
+	i = 1;
+	while (args[i])
+	{
+		if (args[i][0] != '\0')
+			return (args[i]);
+		i++;
+	}
+	return (NULL);
+}
+
 static char	*get_cd_arguments(char **args)
 {
 	char	*path;
+	char	*arg;
 
-	if (args[1])
-		path = args[1];
+	arg = first_nonempty_arg(args);
+	if (arg)
+		path = arg;
 	else
 		path = getenv("HOME");
 	return (path);
@@ -54,12 +72,23 @@ static void	update_envp_variables(char **dup_envp, const char *var_name,
 
 static int	check_path_and_args(char **args, char *path, char *last_pwd)
 {
+	int	i;
+	int	real_args;
+
 	if (!path)
 	{
 		free(last_pwd);
 		return (0);
 	}
-	if (args[2])
+	i = 1;
+	real_args = 0;
+	while (args && args[i])
+	{
+		if (args[i][0] != '\0')
+			real_args++;
+		i++;
+	}
+	if (real_args > 1)
 	{
 		write(2, "cd: too many arguments\n", 23);
 		free(last_pwd);
@@ -78,6 +107,11 @@ void	exec_cd(char **args, char **dup_envp)
 	path = get_cd_arguments(args);
 	if (!check_path_and_args(args, path, last_pwd))
 		return ;
+	if (path && ft_strcmp(path, ".") == 0)
+	{
+		free(last_pwd);
+		return ;
+	}
 	if (chdir(path) != 0)
 	{
 		perror("cd");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 10:59:33 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/06 19:28:16 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:06:50 by devjorginho      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_builtin_map	builtins[8];
 	int				original_stdin_fd;
+	char			**duplicated;
 
 	(void)argc;
 	(void)argv;
 	original_stdin_fd = dup(STDIN_FILENO);
 	if (original_stdin_fd == -1)
 		perror("dup");
+	duplicated = dup_envp(envp);
 	init_builtin_map(builtins);
-	minishell_loop(envp, builtins, original_stdin_fd);
+	minishell_loop(duplicated, builtins, original_stdin_fd);
 	return (0);
 }
