@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:50:49 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 20:11:59 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:09:59 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,15 @@ void	expand_amb_variables(char **envp, char **result)
 		{
 			if (expand_exit_status(&result[i]))
 				continue ;
+			if (!ft_isalpha(result[i][1]) && result[i][1] != '_' && !is_number(result[i][1]))
+				continue ;
+			if (is_number(result[i][1]))
+			{
+				char *tmp = ft_strdup(result[i] + 2);
+				free(result[i]);
+				result[i] = tmp;
+				continue ;
+			}
 			value = find_path_in_envp(envp, &result[i][1]);
 			check_value(result, value, i);
 		}
