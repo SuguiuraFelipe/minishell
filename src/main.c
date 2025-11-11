@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devjorginho <devjorginho@student.42.fr>    +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 10:59:33 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/11 13:06:50 by devjorginho      ###   ########.fr       */
+/*   Updated: 2025/11/11 17:25:18 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+static void	handle_sigint(int sig)
+{
+	(void)sig;
+	g_status = 130;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+static void	handle_sigquit(int sig)
+{
+	(void)sig;
+}
+
+static void	setup_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
+}
 
 int			g_status = 0;
 
@@ -51,7 +72,9 @@ int	main(int argc, char **argv, char **envp)
 	if (original_stdin_fd == -1)
 		perror("dup");
 	duplicated = dup_envp(envp);
+	update_shlvl(duplicated);
 	init_builtin_map(builtins);
+	setup_signals();
 	minishell_loop(duplicated, builtins, original_stdin_fd);
 	return (0);
 }

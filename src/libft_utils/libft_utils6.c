@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils6.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:45:07 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 19:46:12 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:24:14 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,29 @@ int	ft_isalpha(int c)
 		return (1);
 	else
 		return (0);
+}
+
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	sinal;
+	int	dest;
+
+	i = 0;
+	sinal = 1;
+	dest = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sinal = sinal * -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		dest = dest * 10 + str[i] - '0';
+		i++;
+	}
+	return (dest * sinal);
 }

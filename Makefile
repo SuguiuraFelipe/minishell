@@ -35,7 +35,8 @@ SRCS        := src/main.c \
 			   src/parsing/input.c \
 			   src/parsing/expand.c \
 			   src/parsing/quotes.c \
-			   src/parsing/parse_pipeline.c
+			   src/parsing/parse_pipeline.c \
+			   src/parsing/shlvl.c
 
 OBJS        := $(SRCS:.c=.o)
 

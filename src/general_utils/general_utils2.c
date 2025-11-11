@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:14:56 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 20:00:38 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:05:58 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ void	check_file_is_dir(const char *path)
 void	handle_exec_error(char *cmd)
 {
 	if (errno == EACCES)
-		ft_putstr_fd("minishell: Permission denied\n", 2);
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+	}
 	else if (errno == EISDIR)
 	{
 		ft_putstr_fd("minishell: ", 2);

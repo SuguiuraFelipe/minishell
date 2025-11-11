@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 20:09:14 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:24:33 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
 # include <ctype.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -20,7 +21,6 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -98,6 +98,7 @@ char				*ft_itoa(int n);
 char				*ft_substr(const char *s, unsigned int start, size_t len);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
+int					ft_atoi(const char *str);
 
 /* general_utils */
 void				do_not_return(int ac, char **av);
@@ -147,6 +148,8 @@ int					count_cmds(char **args);
 int					**create_pipes(int ncmds);
 void				close_all_pipes(int **pipes, int ncmds);
 void				setup_child_fds(int i, int ncmds, int **pipes);
+void				update_shlvl(char **envp);
+
 
 /* builtin_utils */
 int					is_builtin(char *s);
