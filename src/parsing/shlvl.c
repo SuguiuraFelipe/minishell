@@ -6,7 +6,7 @@
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 17:20:38 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/11 17:20:45 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:49:40 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,24 @@ static int	get_shlvl_index(char **envp)
 		i++;
 	}
 	return (-1);
+}
+
+static int	is_numeric(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !*str)
+		return (0);
+	if (str[0] == '+' || str[0] == '-')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 static int	normalize_shlvl_value(int lvl)
@@ -46,12 +64,15 @@ void	update_shlvl(char **envp)
 	i = get_shlvl_index(envp);
 	if (i == -1)
 	{
-		envp[i + 1] = NULL;
 		envp[i] = ft_strdup("SHLVL=1");
+		envp[i + 1] = NULL;
 		return ;
 	}
 	value = envp[i] + 6;
-	lvl = ft_atoi(value);
+	if (!is_numeric(value))
+		lvl = 0;
+	else
+		lvl = ft_atoi(value);
 	lvl = normalize_shlvl_value(lvl);
 	new_value = ft_itoa(lvl);
 	new_entry = ft_strjoin("SHLVL=", new_value);

@@ -6,7 +6,7 @@
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/11 17:24:33 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:50:03 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char				*ft_substr(const char *s, unsigned int start, size_t len);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_atoi(const char *str);
+int					ft_isdigit(int c);
 
 /* general_utils */
 void				do_not_return(int ac, char **av);
