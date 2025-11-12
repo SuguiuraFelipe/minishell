@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:02:09 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/12 18:04:08 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:14:49 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,25 @@ static int	is_numeric_argument(char *str)
 	return (1);
 }
 
+static int check_many_arguments(char **args)
+{
+	if (args[1] && args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		g_status = 1;
+		return 0;
+	}
+	return 1;
+}
+
 void	exec_exit(char **args, char **envp)
 {
 	long	exit_code;
 
 	if (isatty(STDIN_FILENO))
 		write(1, "exit\n", 5);
-	if (args[1] && args[2])
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		g_status = 1;
+	if(!check_many_arguments(args))
 		return ;
-	}
 	if (args[1])
 	{
 		if (!is_numeric_argument(args[1]))
