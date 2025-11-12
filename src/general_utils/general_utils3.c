@@ -37,4 +37,3 @@ char	*get_suffix_and_prefix(char *line, t_expand_class ec)
 	free(line);
 	return (new_line);
 }
-

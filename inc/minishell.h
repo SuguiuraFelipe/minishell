@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/12 17:51:09 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:28:11 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
 # include <ctype.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -21,6 +20,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -134,7 +134,6 @@ int					update_qmode(int qmode, char c);
 char				*remove_space(char *line);
 char				**parse_pipeline(char *line);
 int					pipe_syntax_error(const char *s);
-void				expand_amb_variables(char **envp, char **result);
 char				*remove_quotes(char *s);
 int					redirections(char **args);
 int					is_pipeline(char **args);
@@ -151,8 +150,6 @@ void				close_all_pipes(int **pipes, int ncmds);
 void				setup_child_fds(int i, int ncmds, int **pipes);
 void				update_shlvl(char **envp);
 char				*expand_line_before_split(char *line, char **envp);
-
-
 
 /* builtin_utils */
 int					is_builtin(char *s);

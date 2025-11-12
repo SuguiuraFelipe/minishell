@@ -14,7 +14,7 @@
 
 static char	*first_nonempty_arg(char **args)
 {
-	int i;
+	int	i;
 
 	if (!args)
 		return (NULL);

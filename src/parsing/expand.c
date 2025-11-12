@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:50:49 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/12 18:19:24 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:34:09 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@ extern int	g_status;
 int	is_number(char c)
 {
 	return (c >= '0' && c <= '9');
-}
-
-void	expand_amb_variables(char **envp, char **result)
-{
-	(void)envp;
-	(void)result;
 }
 
 static char	*expand_one_variable(char *line, char **envp, t_expand_class *ec)

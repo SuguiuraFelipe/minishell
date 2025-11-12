@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 14:06:13 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/06 16:02:34 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:27:36 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	exec_commands(char **args, char **envp, t_builtin_map *builtins,
 	int	saved_stdout;
 
 	i = 0;
-	expand_amb_variables(envp, args);
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
 	while (builtins[i].name)
