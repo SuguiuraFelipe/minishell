@@ -6,7 +6,7 @@
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/11 17:50:03 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:51:09 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void				check_file_is_dir(const char *path);
 void				handle_exec_error(char *cmd);
 int					check_identifier(char *name);
 void				override_amb_value(char **dup_envp, t_export_class ec);
-void				get_suffix_and_prefix(char *line, t_expand_class ec);
+char				*get_suffix_and_prefix(char *line, t_expand_class ec);
 
 /* redirection utils */
 int					check_fail_red_simbol(char **args, int i, char *simbol);
@@ -150,6 +150,8 @@ int					**create_pipes(int ncmds);
 void				close_all_pipes(int **pipes, int ncmds);
 void				setup_child_fds(int i, int ncmds, int **pipes);
 void				update_shlvl(char **envp);
+char				*expand_line_before_split(char *line, char **envp);
+
 
 
 /* builtin_utils */

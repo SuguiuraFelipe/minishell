@@ -6,7 +6,7 @@
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:50:49 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/11 18:09:59 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:53:15 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,31 @@ void	expand_amb_variables(char **envp, char **result)
 char	*expand_line_before_split(char *line, char **envp)
 {
 	t_expand_class	ec;
+	int				qmode;
 
+	line = ft_strdup(line);
 	ec.i = 0;
+	qmode = 0;
 	while (line[ec.i])
 	{
-		if (line[ec.i] == '$' && line[ec.i + 1] && (ft_isalpha(line[ec.i + 1])
-				|| line[ec.i + 1] == '_'))
+		qmode = update_qmode(qmode, line[ec.i]);
+		if (line[ec.i] == '$' && line[ec.i + 1])
 		{
-			ec.start = ec.i + 1;
-			while (ft_isalnum(line[ec.start]) || line[ec.start] == '_')
-				ec.start++;
-			ec.var_name = ft_substr(line, ec.i + 1, ec.start - ec.i - 1);
-			ec.value = find_path_in_envp(envp, ec.var_name);
-			free(ec.var_name);
-			if (!ec.value)
-				ec.value = "";
-			get_suffix_and_prefix(line, ec);
-			ec.i = -1;
+			if (qmode != 1 && (ft_isalpha(line[ec.i + 1])
+					|| line[ec.i + 1] == '_'))
+			{
+				ec.start = ec.i + 1;
+				while (ft_isalnum(line[ec.start]) || line[ec.start] == '_')
+					ec.start++;
+				ec.var_name = ft_substr(line, ec.i + 1,
+						ec.start - ec.i - 1);
+				ec.value = find_path_in_envp(envp, ec.var_name);
+				free(ec.var_name);
+				if (!ec.value)
+					ec.value = "";
+				line = get_suffix_and_prefix(line, ec);
+				ec.i = -1;
+			}
 		}
 		ec.i++;
 	}

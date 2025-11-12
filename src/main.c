@@ -6,7 +6,7 @@
 /*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 10:59:33 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/11 17:25:18 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:44:17 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,13 @@ static void	minishell_loop(char **envp, t_builtin_map *builtins,
 {
 	char	*line;
 	char	**cmdv;
-	char	*temp_result[2];
 
 	while (1)
 	{
 		line = read_line_or_exit();
 		if (!line)
 			continue ;
-		temp_result[0] = line;
-		temp_result[1] = NULL;
-		expand_amb_variables(envp, temp_result);
-		line = temp_result[0];
+		line = expand_line_before_split(line, envp);
 		cmdv = parse_pipeline(line);
 		free(line);
 		if (!cmdv)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:53:20 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 20:10:33 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:50:40 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,21 @@ void	override_amb_value(char **dup_envp, t_export_class ec)
 	dup_envp[ec.j + 1] = NULL;
 }
 
-void	get_suffix_and_prefix(char *line, t_expand_class ec)
+char	*get_suffix_and_prefix(char *line, t_expand_class ec)
 {
-	ec.prefix = ft_substr(line, 0, ec.i);
-	ec.suffix = ft_strdup(&line[ec.start]);
-	ec.expanded = ft_strjoin(ec.prefix, ec.value);
-	free(ec.prefix);
+	char	*prefix;
+	char	*suffix;
+	char	*temp;
+	char	*new_line;
+
+	prefix = ft_substr(line, 0, ec.i);
+	suffix = ft_strdup(&line[ec.start]);
+	temp = ft_strjoin(prefix, ec.value);
+	new_line = ft_strjoin(temp, suffix);
+	free(prefix);
+	free(suffix);
+	free(temp);
 	free(line);
-	line = ft_strjoin(ec.expanded, ec.suffix);
-	free(ec.expanded);
-	free(ec.suffix);
+	return (new_line);
 }
+
