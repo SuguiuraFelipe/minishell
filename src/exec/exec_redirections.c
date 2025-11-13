@@ -6,18 +6,16 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 16:03:31 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:16:37 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	red_in(char **args)
+static int	red_in(char **args, int i)
 {
-	int	i;
 	int	fd;
 
-	i = 0;
 	if (check_fail_red_simbol(args, i, "<"))
 		return (-1);
 	check_file_is_dir(args[i + 1]);
@@ -33,12 +31,10 @@ static int	red_in(char **args)
 	return (0);
 }
 
-static int	red_out(char **args)
+static int	red_out(char **args, int i)
 {
-	int	i;
 	int	fd;
 
-	i = 0;
 	if (check_fail_red_simbol(args, i, ">"))
 		return (-1);
 	check_file_is_dir(args[i + 1]);
@@ -54,12 +50,10 @@ static int	red_out(char **args)
 	return (0);
 }
 
-static int	red_append(char **args)
+static int	red_append(char **args, int i)
 {
-	int	i;
 	int	fd;
 
-	i = 0;
 	if (check_fail_red_simbol(args, i, ">>"))
 		return (-1);
 	check_file_is_dir(args[i + 1]);
@@ -75,12 +69,10 @@ static int	red_append(char **args)
 	return (0);
 }
 
-static void	red_here_doc(char **args)
+static void	red_here_doc(char **args, int i)
 {
-	int	i;
 	int	pipefd[2];
 
-	i = -1;
 	while (args[++i])
 	{
 		if (ft_strcmp(args[i], "<<") == 0)
@@ -112,17 +104,36 @@ int	redirections(char **args)
 	i = 0;
 	error = 0;
 	while (args[i])
-	{
-		if (ft_strcmp(args[i], ">") == 0 && red_out(&args[i++]) == -1)
-			error = 1;
-		else if (ft_strcmp(args[i], ">>") == 0 && red_append(&args[i++]) == -1)
-			error = 1;
-		else if (ft_strcmp(args[i], "<") == 0 && red_in(&args[i++]) == -1)
-			error = 1;
-		else if (ft_strcmp(args[i], "<<") == 0)
-			red_here_doc(&args[i++]);
-		i++;
-	}
+    {
+        if (!ft_strcmp(args[i], ">"))
+        {
+            if (red_out(args, i) == -1)
+                error = 1;
+            i += 2;
+            continue;
+        }
+        else if (!ft_strcmp(args[i], ">>"))
+        {
+            if (red_append(args, i) == -1)
+                error = 1;
+            i += 2;
+            continue;
+        }
+        else if (!ft_strcmp(args[i], "<"))
+        {
+            if (red_in(args, i) == -1)
+                error = 1;
+            i += 2;
+            continue;
+        }
+        else if (!ft_strcmp(args[i], "<<"))
+        {
+            red_here_doc(args, i);
+            i += 2;
+            continue;
+        }
+        i++;
+    }
 	if (error)
 		return (-1);
 	if (!args[0])
