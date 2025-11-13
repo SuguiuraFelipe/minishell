@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils6.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:45:07 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/11 17:49:50 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:48:54 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ int	ft_atoi(const char *str)
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+int	is_letter(char c)
+{
+	if(c >= 'A' && c <= 'Z')
+		return (1);
+	if(c >= 'a' && c <= 'b')
 		return (1);
 	return (0);
 }

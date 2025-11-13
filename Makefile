@@ -1,43 +1,42 @@
-
 NAME        := minishell
 CC          := cc
-CFLAGS = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include
-LDFLAGS = -L/opt/homebrew/opt/readline/lib -lreadline
+CFLAGS      := -Wall -Wextra -Werror
+LDFLAGS     := -lreadline
 INCLUDES    := -I.
-LIBS        := -lreadline
+DEBUG_CFLAGS := -Wall -Wextra -Werror -g
 
 SRCS        := src/main.c \
-			   src/exec/exec_normal_cmds.c \
-			   src/exec/exec_builtins_cmds.c \
-			   src/exec/exec_cd.c \
-			   src/exec/exec_echo.c \
-			   src/exec/exec_env.c \
-			   src/exec/exec_exit.c \
-			   src/exec/exec_export.c \
-			   src/exec/exec_pwd.c \
-			   src/exec/exec_unset.c \
-			   src/exec/exec_redirections.c \
-			   src/exec/exec_pipes.c \
- 			   src/libft_utils/libft_utils.c \
- 			   src/libft_utils/libft_utils2.c \
- 			   src/libft_utils/libft_utils3.c \
- 			   src/libft_utils/libft_utils4.c \
- 			   src/libft_utils/libft_utils5.c \
- 			   src/libft_utils/libft_utils6.c \
-			   src/general_utils/builtins_utils.c \
-			   src/general_utils/builtins_utils2.c \
-			   src/general_utils/general_utils.c \
-			   src/general_utils/general_utils2.c \
-			   src/general_utils/general_utils3.c \
-			   src/general_utils/redirection_utils.c \
-			   src/general_utils/get_path_utils.c \
-			   src/general_utils/pipes_utils.c \
-			   src/general_utils/pipes_utils2.c \
-			   src/parsing/input.c \
-			   src/parsing/expand.c \
-			   src/parsing/quotes.c \
-			   src/parsing/parse_pipeline.c \
-			   src/parsing/shlvl.c
+               src/exec/exec_normal_cmds.c \
+               src/exec/exec_builtins_cmds.c \
+               src/exec/exec_cd.c \
+               src/exec/exec_echo.c \
+               src/exec/exec_env.c \
+               src/exec/exec_exit.c \
+               src/exec/exec_export.c \
+               src/exec/exec_pwd.c \
+               src/exec/exec_unset.c \
+               src/exec/exec_redirections.c \
+               src/exec/exec_pipes.c \
+               src/libft_utils/libft_utils.c \
+               src/libft_utils/libft_utils2.c \
+               src/libft_utils/libft_utils3.c \
+               src/libft_utils/libft_utils4.c \
+               src/libft_utils/libft_utils5.c \
+               src/libft_utils/libft_utils6.c \
+               src/general_utils/builtins_utils.c \
+               src/general_utils/builtins_utils2.c \
+               src/general_utils/general_utils.c \
+               src/general_utils/general_utils2.c \
+               src/general_utils/general_utils3.c \
+               src/general_utils/redirection_utils.c \
+               src/general_utils/get_path_utils.c \
+               src/general_utils/pipes_utils.c \
+               src/general_utils/pipes_utils2.c \
+               src/parsing/input.c \
+               src/parsing/expand.c \
+               src/parsing/quotes.c \
+               src/parsing/parse_pipeline.c \
+               src/parsing/shlvl.c
 
 OBJS        := $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:50:49 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 18:00:51 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 19:21:45 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,28 @@
 
 extern int	g_status;
 
-int	is_number(char c)
+static char	*expand_status(char *line, int pos)
 {
-	return (c >= '0' && c <= '9');
+	char	*num;
+	char	*prefix;
+	char	*suffix;
+	char	*temp;
+	char	*new_line;
+
+	num = ft_itoa(g_status);
+	if (!num)
+		return (line);
+	prefix = ft_substr(line, 0, pos);
+	suffix = ft_strdup(line + pos + 2);
+
+	temp = ft_strjoin(prefix, num);
+	free(prefix);
+	free(num);
+	new_line = ft_strjoin(temp, suffix);
+	free(temp);
+	free(suffix);
+	free(line);
+	return (new_line);
 }
 
 static char	*expand_one_variable(char *line, char **envp, t_expand_class *ec)
@@ -30,7 +49,7 @@ static char	*expand_one_variable(char *line, char **envp, t_expand_class *ec)
 	if (!ec->value)
 		ec->value = "";
 	line = get_suffix_and_prefix(line, *ec);
-	ec->i = -1;
+	ec->i = ec->start - 1;
 	return (line);
 }
 
@@ -45,10 +64,15 @@ char	*expand_line_before_split(char *line, char **envp)
 	while (line[ec.i])
 	{
 		qmode = update_qmode(qmode, line[ec.i]);
-		if (line[ec.i] == '$' && line[ec.i + 1])
+
+		if (line[ec.i] == '$' && line[ec.i + 1] && qmode != 1)
 		{
-			if (qmode != 1 && (ft_isalpha(line[ec.i + 1])
-					|| line[ec.i + 1] == '_'))
+			if (line[ec.i + 1] == '?')
+			{
+				line = expand_status(line, ec.i);
+				ec.i += ft_strlen(ft_itoa(g_status)) - 1;
+			}
+			else if (ft_isalpha(line[ec.i + 1]) || line[ec.i + 1] == '_')
 				line = expand_one_variable(line, envp, &ec);
 		}
 		ec.i++;

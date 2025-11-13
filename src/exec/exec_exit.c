@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:02:09 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/12 18:14:49 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:52:52 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	is_numeric_argument(char *str)
 
 static int	check_many_arguments(char **args)
 {
-	if (args[1] && args[2])
+	if ((args[1] && args[2]) && !is_letter(args[1][0]))
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		g_status = 1;
