@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 16:27:18 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 18:05:30 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:10:46 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,3 @@ void	exec_echo(char **args, char **envp)
 	if (print_newline)
 		ft_putstr_fd("\n", 1);
 }
-
