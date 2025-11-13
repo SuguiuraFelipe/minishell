@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 18:49:24 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 19:34:00 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,22 @@ int	redirections(char **args)
 	error = 0;
 	while (args[i])
 	{
-		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">>")
-			|| !ft_strcmp(args[i], "<") || !ft_strcmp(args[i], "<<"))
+		if (is_quoted_token(args[i]))
+		{
+			i++;
+			continue ;
+		}
+		if (!ft_strcmp(args[i], ">")
+			|| !ft_strcmp(args[i], ">>")
+			|| !ft_strcmp(args[i], "<")
+			|| !ft_strcmp(args[i], "<<"))
 		{
 			check_redirection(args, &i, &error);
 		}
 		else
+		{
 			i++;
+		}
 	}
 	if (error)
 		return (-1);

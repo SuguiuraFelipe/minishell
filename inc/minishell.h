@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 18:49:22 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 19:32:50 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void				handle_exec_error(char *cmd);
 int					check_identifier(char *name);
 void				override_amb_value(char **dup_envp, t_export_class ec);
 char				*get_suffix_and_prefix(char *line, t_expand_class ec);
+int					is_quoted_token(char *arg);
 
 /* redirection utils */
 int					check_fail_red_simbol(char **args, int i, char *simbol);
@@ -137,7 +138,6 @@ int					quotes_balanced(const char *s);
 char				*read_line_or_exit(void);
 void				change_pipe(char *s);
 int					update_qmode(int qmode, char c);
-char				*remove_space(char *line);
 char				**parse_pipeline(char *line);
 int					pipe_syntax_error(const char *s);
 char				*remove_quotes(char *s);
