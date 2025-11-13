@@ -6,17 +6,20 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 16:40:08 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 17:46:05 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:52:06 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	is_broken_start(const char *s)
+int is_broken_start(const char *s)
 {
-	if (!s || ft_strlen(s) < 1)
-		return (0);
-	return (s[0] == '"' && ft_strchr(s, '\''));
+    int result;
+
+    if (!s || ft_strlen(s) < 1)
+        return (0);
+    result = (s[0] == '"' && ft_strchr(s, '\''));
+    return (result);
 }
 
 int	is_broken_end(const char *s)

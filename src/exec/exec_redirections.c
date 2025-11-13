@@ -6,13 +6,13 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 17:46:15 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:50:24 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	red_in(char **args, int i)
+int	red_in(char **args, int i)
 {
 	int	fd;
 
@@ -31,7 +31,7 @@ static int	red_in(char **args, int i)
 	return (0);
 }
 
-static int	red_out(char **args, int i)
+int	red_out(char **args, int i)
 {
 	int	fd;
 
@@ -50,7 +50,7 @@ static int	red_out(char **args, int i)
 	return (0);
 }
 
-static int	red_append(char **args, int i)
+int	red_append(char **args, int i)
 {
 	int	fd;
 
@@ -69,7 +69,7 @@ static int	red_append(char **args, int i)
 	return (0);
 }
 
-static void	red_here_doc(char **args, int i)
+void	red_here_doc(char **args, int i)
 {
 	int	pipefd[2];
 

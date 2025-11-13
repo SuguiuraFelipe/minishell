@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 17:45:58 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:51:09 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,10 @@ char				*set_here_doc_line(int *arr, char **args, int i);
 void				dup_and_close_here_doc(int *arr);
 int					free_here_doc(char **args, int i, char *simbol);
 void				check_redirection(char **args, int *i, int *error);
+int					red_in(char **args, int i);
+int					red_out(char **args, int i);
+int					red_append(char **args, int i);
+void				red_here_doc(char **args, int i);
 
 /* parsing */
 void				exit_minishell(void);
