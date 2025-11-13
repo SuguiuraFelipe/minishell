@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:22:16 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/06 16:19:27 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:46:11 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,33 @@ void	dup_and_close_here_doc(int *arr)
 	dup2(arr[0], STDIN_FILENO);
 	close(arr[0]);
 	close(arr[1]);
+}
+
+void	check_redirection(char **args, int *i, int *error)
+{
+	if (!ft_strcmp(args[*i], ">"))
+	{
+		if (red_out(args, *i) == -1)
+			*error = 1;
+		*i += 2;
+	}
+	else if (!ft_strcmp(args[*i], ">>"))
+	{
+		if (red_append(args, *i) == -1)
+			*error = 1;
+		*i += 2;
+	}
+	else if (!ft_strcmp(args[*i], "<"))
+	{
+		if (red_in(args, *i) == -1)
+			*error = 1;
+		*i += 2;
+	}
+	else if (!ft_strcmp(args[*i], "<<"))
+	{
+		red_here_doc(args, *i);
+		*i += 2;
+	}
+	else
+		(*i)++;
 }

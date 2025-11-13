@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 17:18:21 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:45:58 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
 # include <ctype.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -21,6 +20,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -123,6 +123,7 @@ int					check_fail_red_simbol(char **args, int i, char *simbol);
 char				*set_here_doc_line(int *arr, char **args, int i);
 void				dup_and_close_here_doc(int *arr);
 int					free_here_doc(char **args, int i, char *simbol);
+void				check_redirection(char **args, int *i, int *error);
 
 /* parsing */
 void				exit_minishell(void);

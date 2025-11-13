@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 17:30:03 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:46:15 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,36 +104,15 @@ int	redirections(char **args)
 	i = 0;
 	error = 0;
 	while (args[i])
-    {
-        if (!ft_strcmp(args[i], ">"))
-        {
-            if (red_out(args, i) == -1)
-                error = 1;
-            i += 2;
-            continue;
-        }
-        else if (!ft_strcmp(args[i], ">>"))
-        {
-            if (red_append(args, i) == -1)
-                error = 1;
-            i += 2;
-            continue;
-        }
-        else if (!ft_strcmp(args[i], "<"))
-        {
-            if (red_in(args, i) == -1)
-                error = 1;
-            i += 2;
-            continue;
-        }
-        else if (!ft_strcmp(args[i], "<<"))
-        {
-            red_here_doc(args, i);
-            i += 2;
-            continue;
-        }
-        i++;
-    }
+	{
+		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], ">>")
+			|| !ft_strcmp(args[i], "<") || !ft_strcmp(args[i], "<<"))
+		{
+			check_redirection(args, &i, &error);
+		}
+		else
+			i++;
+	}
 	if (error)
 		return (-1);
 	if (!args[0])
