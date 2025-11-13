@@ -25,6 +25,7 @@ SRCS        := src/main.c \
  			   src/libft_utils/libft_utils5.c \
  			   src/libft_utils/libft_utils6.c \
 			   src/general_utils/builtins_utils.c \
+			   src/general_utils/builtins_utils2.c \
 			   src/general_utils/general_utils.c \
 			   src/general_utils/general_utils2.c \
 			   src/general_utils/general_utils3.c \

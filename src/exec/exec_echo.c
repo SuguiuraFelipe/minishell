@@ -6,49 +6,13 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 16:27:18 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 16:33:37 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:01:29 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../inc/minishell.h"
 
-static int is_broken_start(const char *s)
-{
-    if (!s || ft_strlen(s) < 1)
-        return (0);
-    return (s[0] == '"' && ft_strchr(s, '\'')); 
-}
-
-static int is_broken_end(const char *s)
-{
-    size_t len;
-
-    if (!s || (len = ft_strlen(s)) < 1)
-        return (0);
-    return (s[len - 1] == '"' && ft_strchr(s, '\''));
-}
-
-static char *safe_strjoin(char *s1, const char *s2)
-{
-    char *new_s;
-
-    if (!s1)
-        return (ft_strdup(s2));
-    new_s = malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
-    if (!new_s)
-    {
-        free(s1);
-        return (NULL);
-    }
-    ft_strcpy(new_s, s1);
-    ft_strcat(new_s, " ");
-    ft_strcat(new_s, s2);
-    free(s1);
-    return (new_s);
-}
-static int is_valid_n_flag(const char *s)
+static int is_valid_n_flag(char *s)
 {
     int i;
 
@@ -63,7 +27,14 @@ static int is_valid_n_flag(const char *s)
     }
     return (1);
 }
-
+static void handle_multi_n(char **args, int *i, int *print_newline)
+{
+    while (args[*i] && is_valid_n_flag(args[*i]))
+    {
+        *print_newline = 0;
+        (*i)++;
+    }
+}
 void    exec_echo(char **args, char **envp)
 {
     int     i;
@@ -75,11 +46,7 @@ void    exec_echo(char **args, char **envp)
     (void)envp;
     i = 1;
     print_newline = 1;
-    while (args[i] && is_valid_n_flag(args[i]))
-    {
-        print_newline = 0;
-        i++;
-    }
+    handle_multi_n(args, &i, &print_newline);
     while (args[i])
     {
         if (is_broken_start(args[i]) && args[i + 1])
@@ -114,7 +81,6 @@ void    exec_echo(char **args, char **envp)
         ft_putstr_fd(temp_arg, 1);
         if (args[i + 1]) 
             ft_putstr_fd(" ", 1);
-
         free(temp_arg);
         i++;
     }

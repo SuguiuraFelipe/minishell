@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/12 18:28:11 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:42:19 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,10 @@ char				*expand_line_before_split(char *line, char **envp);
 
 /* builtin_utils */
 int					is_builtin(char *s);
+int					is_broken_end(const char *s);
+int					is_broken_start(const char *s);
 char				**dup_envp(char **envp);
+char				*safe_strjoin(char *s1, const char *s2);
 
 /* exec */
 void				exec_normal_commands(char **args, char **envp,
