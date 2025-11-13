@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 16:27:18 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 18:01:31 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:05:30 by fsuguiur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,50 @@ static void	handle_multi_n(char **args, int *i, int *print_newline)
 	}
 }
 
+static char	*echo_collect_token(char **args, int *i)
+{
+	char	*clean;
+	int		j;
+
+	if (!is_broken_start(args[*i]) || !args[*i + 1])
+		return (ft_strdup(args[*i]));
+	clean = ft_strdup(args[*i]);
+	if (!clean)
+		return (NULL);
+	j = *i + 1;
+	while (args[j] && !is_broken_end(args[j]))
+	{
+		clean = safe_strjoin(clean, args[j]);
+		if (!clean)
+			return (NULL);
+		j++;
+	}
+	if (args[j] && is_broken_end(args[j]))
+	{
+		clean = safe_strjoin(clean, args[j]);
+		if (!clean)
+			return (NULL);
+		*i = j;
+	}
+	return (clean);
+}
+
+static void	echo_print(char *clean)
+{
+	char	*tmp;
+
+	tmp = remove_quotes(clean);
+	if (!tmp)
+		return ;
+	ft_putstr_fd(tmp, 1);
+	free(tmp);
+}
+
 void	exec_echo(char **args, char **envp)
 {
 	int		i;
-	int		j;
 	int		print_newline;
 	char	*clean;
-	char	*temp_arg;
 
 	(void)envp;
 	i = 1;
@@ -51,41 +88,16 @@ void	exec_echo(char **args, char **envp)
 	handle_multi_n(args, &i, &print_newline);
 	while (args[i])
 	{
-		if (is_broken_start(args[i]) && args[i + 1])
-		{
-			clean = ft_strdup(args[i]);
-			if (!clean)
-				return ;
-			j = i + 1;
-			while (args[j] && !is_broken_end(args[j]))
-			{
-				clean = safe_strjoin(clean, args[j]);
-				if (!clean)
-					return ;
-				j++;
-			}
-			if (args[j] && is_broken_end(args[j]))
-			{
-				clean = safe_strjoin(clean, args[j]);
-				if (!clean)
-					return ;
-				i = j;
-			}
-		}
-		else
-		{
-			clean = ft_strdup(args[i]);
-			if (!clean)
-				return ;
-		}
-		temp_arg = remove_quotes(clean);
+		clean = echo_collect_token(args, &i);
+		if (!clean)
+			return ;
+		echo_print(clean);
 		free(clean);
-		ft_putstr_fd(temp_arg, 1);
 		if (args[i + 1])
 			ft_putstr_fd(" ", 1);
-		free(temp_arg);
 		i++;
 	}
 	if (print_newline)
 		ft_putstr_fd("\n", 1);
 }
+
