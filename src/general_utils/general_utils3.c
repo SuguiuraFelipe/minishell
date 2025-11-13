@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:53:20 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/12 17:50:40 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:49:15 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,20 @@ char	*get_suffix_and_prefix(char *line, t_expand_class ec)
 	free(temp);
 	free(line);
 	return (new_line);
+}
+
+void	path_is_not_valid(char **args, int original_stdin_fd,
+		int original_stdout_fd)
+{
+	ft_cmd_not_found(args[0]);
+	dup2(original_stdin_fd, STDIN_FILENO);
+	dup2(original_stdout_fd, STDOUT_FILENO);
+	close(original_stdout_fd);
+}
+
+void	redirect_is_not_valid(int original_stdin_fd, int original_stdout_fd)
+{
+	dup2(original_stdin_fd, STDIN_FILENO);
+	dup2(original_stdout_fd, STDOUT_FILENO);
+	close(original_stdout_fd);
 }

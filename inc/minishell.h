@@ -6,14 +6,13 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 19:55:46 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:49:40 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
 # include <ctype.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -21,6 +20,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -119,6 +119,10 @@ int					check_identifier(char *name);
 void				override_amb_value(char **dup_envp, t_export_class ec);
 char				*get_suffix_and_prefix(char *line, t_expand_class ec);
 int					is_quoted_token(char *arg);
+void				path_is_not_valid(char **args, int original_stdin_fd,
+						int original_stdout_fd);
+void				redirect_is_not_valid(int original_stdin_fd,
+						int original_stdout_fd);
 
 /* redirection utils */
 int					check_fail_red_simbol(char **args, int i, char *simbol);
@@ -130,6 +134,7 @@ int					red_in(char **args, int i);
 int					red_out(char **args, int i);
 int					red_append(char **args, int i);
 void				red_here_doc(char **args, int i);
+int					validate_quote_token(char **args, int *i);
 
 /* parsing */
 void				exit_minishell(void);
@@ -163,7 +168,7 @@ int					is_broken_end(const char *s);
 int					is_broken_start(const char *s);
 char				**dup_envp(char **envp);
 char				*safe_strjoin(char *s1, const char *s2);
-void 				ft_remove_redirection_tokens(char **args, int start_index);
+void				ft_remove_redirection_tokens(char **args, int start_index);
 
 /* exec */
 void				exec_normal_commands(char **args, char **envp,

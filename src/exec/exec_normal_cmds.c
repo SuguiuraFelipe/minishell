@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 08:41:47 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/13 20:27:52 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:52:24 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,19 @@ static void	init_and_check_execve(int pid, char *path, char **args, char **envp)
 	}
 }
 
+void	duplicate_stdin_and_stdout_fd(int stdin_fd, int stdout_fd)
+{
+	dup2(stdin_fd, STDIN_FILENO);
+	dup2(stdout_fd, STDOUT_FILENO);
+	close(stdout_fd);
+}
+
 void	exec_normal_commands(char **args, char **envp, int original_stdin_fd)
 {
-	int	pid;
+	int		pid;
+	int		red_res;
 	char	*path;
-	int	red_res;
-	int	original_stdout_fd;
+	int		original_stdout_fd;
 
 	if (!args || !args[0])
 		return ;
@@ -64,24 +71,17 @@ void	exec_normal_commands(char **args, char **envp, int original_stdin_fd)
 	red_res = redirections(args);
 	if (red_res == -1 || !args[0])
 	{
-		dup2(original_stdin_fd, STDIN_FILENO);
-		dup2(original_stdout_fd, STDOUT_FILENO);
-		close(original_stdout_fd);
+		redirect_is_not_valid(original_stdin_fd, original_stdout_fd);
 		return ;
 	}
 	path = get_path(args[0], envp);
 	if (!path)
 	{
-		ft_cmd_not_found(args[0]);
-		dup2(original_stdin_fd, STDIN_FILENO);
-		dup2(original_stdout_fd, STDOUT_FILENO);
-		close(original_stdout_fd);
+		path_is_not_valid(args, original_stdin_fd, original_stdout_fd);
 		return ;
 	}
 	pid = fork();
 	init_and_check_execve(pid, path, args, envp);
-	dup2(original_stdin_fd, STDIN_FILENO);
-	dup2(original_stdout_fd, STDOUT_FILENO);
-	close(original_stdout_fd);
+	duplicate_stdin_and_stdout_fd(original_stdin_fd, original_stdout_fd);
 	free(path);
 }

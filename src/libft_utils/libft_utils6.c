@@ -61,9 +61,9 @@ int	ft_isdigit(int c)
 
 int	is_letter(char c)
 {
-	if(c >= 'A' && c <= 'Z')
+	if (c >= 'A' && c <= 'Z')
 		return (1);
-	if(c >= 'a' && c <= 'b')
+	if (c >= 'a' && c <= 'b')
 		return (1);
 	return (0);
 }

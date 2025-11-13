@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:50:49 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 19:21:45 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:31:48 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static char	*expand_status(char *line, int pos)
 		return (line);
 	prefix = ft_substr(line, 0, pos);
 	suffix = ft_strdup(line + pos + 2);
-
 	temp = ft_strjoin(prefix, num);
 	free(prefix);
 	free(num);
@@ -64,7 +63,6 @@ char	*expand_line_before_split(char *line, char **envp)
 	while (line[ec.i])
 	{
 		qmode = update_qmode(qmode, line[ec.i]);
-
 		if (line[ec.i] == '$' && line[ec.i + 1] && qmode != 1)
 		{
 			if (line[ec.i + 1] == '?')
