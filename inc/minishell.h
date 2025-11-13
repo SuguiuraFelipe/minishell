@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 19:32:50 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/13 19:55:46 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ int					is_broken_end(const char *s);
 int					is_broken_start(const char *s);
 char				**dup_envp(char **envp);
 char				*safe_strjoin(char *s1, const char *s2);
+void 				ft_remove_redirection_tokens(char **args, int start_index);
 
 /* exec */
 void				exec_normal_commands(char **args, char **envp,

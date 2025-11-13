@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 07:23:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 19:34:00 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:28:53 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	red_in(char **args, int i)
 		return (-1);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	args[i] = NULL;
-	args[i + 1] = NULL;
+	ft_remove_redirection_tokens(args, i);
 	return (0);
 }
 
@@ -45,8 +44,7 @@ int	red_out(char **args, int i)
 		return (-1);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	args[i] = NULL;
-	args[i + 1] = NULL;
+	ft_remove_redirection_tokens(args, i);
 	return (0);
 }
 
@@ -64,8 +62,7 @@ int	red_append(char **args, int i)
 		return (-1);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	args[i] = NULL;
-	args[i + 1] = NULL;
+	ft_remove_redirection_tokens(args, i);
 	return (0);
 }
 
@@ -96,35 +93,36 @@ void	red_here_doc(char **args, int i)
 	}
 }
 
-int	redirections(char **args)
+int redirections(char **args)
 {
-	int	i;
-	int	error;
+    int i;
+    int error;
 
-	i = 0;
-	error = 0;
-	while (args[i])
-	{
-		if (is_quoted_token(args[i]))
-		{
-			i++;
-			continue ;
-		}
-		if (!ft_strcmp(args[i], ">")
-			|| !ft_strcmp(args[i], ">>")
-			|| !ft_strcmp(args[i], "<")
-			|| !ft_strcmp(args[i], "<<"))
-		{
-			check_redirection(args, &i, &error);
-		}
-		else
-		{
-			i++;
-		}
-	}
-	if (error)
-		return (-1);
-	if (!args[0])
-		return (1);
-	return (0);
+    i = 0;
+    error = 0;
+    while (args[i])
+    {
+        if (is_quoted_token(args[i]))
+        {
+            i++;
+            continue ;
+        }
+        if (!ft_strcmp(args[i], ">")
+            || !ft_strcmp(args[i], ">>")
+            || !ft_strcmp(args[i], "<")
+            || !ft_strcmp(args[i], "<<"))
+        {
+            check_redirection(args, &i, &error);
+            if (error)
+                return (-1);
+            continue; 
+        }
+        else
+            i++;
+    }
+    if (error)
+        return (-1);
+    if (!args[0])
+        return (1);
+    return (0);
 }

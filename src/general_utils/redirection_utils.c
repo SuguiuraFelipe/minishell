@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:22:16 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 17:46:11 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:29:02 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,19 @@ void	check_redirection(char **args, int *i, int *error)
 	{
 		if (red_out(args, *i) == -1)
 			*error = 1;
-		*i += 2;
 	}
 	else if (!ft_strcmp(args[*i], ">>"))
 	{
 		if (red_append(args, *i) == -1)
 			*error = 1;
-		*i += 2;
 	}
 	else if (!ft_strcmp(args[*i], "<"))
 	{
 		if (red_in(args, *i) == -1)
 			*error = 1;
-		*i += 2;
 	}
 	else if (!ft_strcmp(args[*i], "<<"))
 	{
 		red_here_doc(args, *i);
-		*i += 2;
 	}
-	else
-		(*i)++;
 }
