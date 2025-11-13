@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 08:41:47 by devjorginho       #+#    #+#             */
-/*   Updated: 2025/11/13 20:52:24 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 21:36:36 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	duplicate_stdin_and_stdout_fd(int stdin_fd, int stdout_fd)
 void	exec_normal_commands(char **args, char **envp, int original_stdin_fd)
 {
 	int		pid;
-	int		red_res;
 	char	*path;
+	int		red_res;
 	int		original_stdout_fd;
 
 	if (!args || !args[0])
@@ -71,13 +71,14 @@ void	exec_normal_commands(char **args, char **envp, int original_stdin_fd)
 	red_res = redirections(args);
 	if (red_res == -1 || !args[0])
 	{
-		redirect_is_not_valid(original_stdin_fd, original_stdout_fd);
+		duplicate_stdin_and_stdout_fd(original_stdin_fd, original_stdout_fd);
 		return ;
 	}
 	path = get_path(args[0], envp);
 	if (!path)
 	{
-		path_is_not_valid(args, original_stdin_fd, original_stdout_fd);
+		ft_cmd_not_found(args[0]);
+		duplicate_stdin_and_stdout_fd(original_stdin_fd, original_stdout_fd);
 		return ;
 	}
 	pid = fork();

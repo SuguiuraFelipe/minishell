@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 16:27:18 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 18:53:35 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 21:54:17 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,7 @@ static char	*echo_collect_token(char **args, int *i)
 
 static void	echo_print(char *clean)
 {
-	char	*tmp;
-
-	tmp = remove_quotes(clean);
-	if (!tmp)
-		return ;
-	ft_putstr_fd(tmp, 1);
-	free(tmp);
+	ft_putstr_fd(clean, 1);
 }
 
 void	exec_echo(char **args, char **envp)

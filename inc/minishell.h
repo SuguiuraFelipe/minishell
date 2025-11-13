@@ -6,7 +6,7 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:58:37 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 20:49:40 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 21:23:52 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int					check_identifier(char *name);
 void				override_amb_value(char **dup_envp, t_export_class ec);
 char				*get_suffix_and_prefix(char *line, t_expand_class ec);
 int					is_quoted_token(char *arg);
+char				**split_args_with_quotes(const char *s);
 void				path_is_not_valid(char **args, int original_stdin_fd,
 						int original_stdout_fd);
 void				redirect_is_not_valid(int original_stdin_fd,

@@ -28,6 +28,7 @@ SRCS        := src/main.c \
                src/general_utils/general_utils.c \
                src/general_utils/general_utils2.c \
                src/general_utils/general_utils3.c \
+               src/general_utils/general_utils4.c \
                src/general_utils/redirection_utils.c \
                src/general_utils/redirection_utils2.c \
                src/general_utils/get_path_utils.c \

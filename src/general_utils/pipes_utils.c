@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuguiur <fsuguiur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:23:45 by fsuguiur          #+#    #+#             */
-/*   Updated: 2025/11/06 18:19:26 by fsuguiur         ###   ########.fr       */
+/*   Updated: 2025/11/13 21:36:48 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	exec_single(char *str, char **envp, t_builtin_map *builtins,
 
 	if (!str || !*str)
 		return ;
-	args = ft_split(str, ' ');
+	args = split_args_with_quotes(str);
 	if (!args)
 		return ;
 	exec_commands(args, envp, builtins, original_stdin_fd);
