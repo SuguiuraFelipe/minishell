@@ -6,29 +6,33 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 16:40:08 by jde-carv          #+#    #+#             */
-/*   Updated: 2025/11/13 17:52:06 by jde-carv         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:57:39 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int is_broken_start(const char *s)
+int	is_broken_start(const char *s)
 {
-    int result;
+	int	result;
 
-    if (!s || ft_strlen(s) < 1)
-        return (0);
-    result = (s[0] == '"' && ft_strchr(s, '\''));
-    return (result);
+	if (!s || ft_strlen(s) < 1)
+		return (0);
+	result = (s[0] == '"' && ft_strchr(s, '\''));
+	return (result);
 }
 
 int	is_broken_end(const char *s)
 {
 	size_t	len;
+	int		result;
+	int		len_is_valid;
 
-	if (!s || (len = ft_strlen(s)) < 1)
+	len_is_valid = ((len = ft_strlen(s)) < 1);
+	if (!s || len_is_valid)
 		return (0);
-	return (s[len - 1] == '"' && ft_strchr(s, '\''));
+	result = (s[len - 1] == '"' && ft_strchr(s, '\''));
+	return (result);
 }
 
 char	*safe_strjoin(char *s1, const char *s2)
